@@ -12,6 +12,23 @@ public class SessionManager {
 	private Map<Integer, String> sessions = new HashMap<>();
 	
 	/*
+	 * Creation of instances aside from singleton disallowed.
+	 */
+	private SessionManager(){};
+	
+	private static SessionManager singleton = null;
+	
+	/*
+	 * Factory method for the singleton
+	 */
+	public static SessionManager getReference(){
+		if(singleton == null){
+			singleton = new SessionManager();
+			return singleton;
+		} else return singleton;
+	}
+	
+	/*
 	 * Generates a session for user and returns the sessionId
 	 */
 	public int generateSession(String userId){
