@@ -9,6 +9,23 @@ import users.datatypes.User;
  */
 public class UserDAO implements IUserDAO {
 	
+	/*
+	 * Creation of instances aside from singleton disallowed.
+	 */
+	private UserDAO(){};
+	
+	private static UserDAO singleton = null;
+	
+	/*
+	 * Factory method for the singleton
+	 */
+	public static IUserDAO getReference(){
+		if(singleton == null){
+			singleton = new UserDAO();
+			return singleton;
+		} else return singleton;
+	}
+	
 	@Override
 	public User getUser(String userId){
 		return null;//TODO
