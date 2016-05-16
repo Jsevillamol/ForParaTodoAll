@@ -1,5 +1,7 @@
 package server;
 
+import server.protocols.SystemRequest;
+
 /*
  * Handles connections to clients.
  * Dispatches requests to the system incoming from client applications.
@@ -8,6 +10,8 @@ public class Server {
 	
 	/*
 	 * Encapsulates a connection to a client.
+	 * Not to be confused with Client.client, which is a real client.
+	 * This class is a connection to such a client.
 	 */
 	public class Client implements Endpoint{
 

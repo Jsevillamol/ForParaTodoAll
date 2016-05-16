@@ -1,7 +1,7 @@
 package client;
 
 import server.Endpoint;
-import server.SystemResponse;
+import server.protocols.SystemResponse;
 import client.connect.ProxyController;
 import client.ui.GUI;
 
