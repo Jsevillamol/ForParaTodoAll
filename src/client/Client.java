@@ -11,7 +11,15 @@ import client.ui.GUI;
  */
 public class Client implements Endpoint {
 	
+	/*
+	 * Proxy controller we will pass to GUI to wrap the calls GUI makes
+	 * and send them to us via the method sendData.
+	 */
 	ProxyController controller = new ProxyController(this);
+	
+	/*
+	 * Graphical User Interface
+	 */
 	GUI gui;
 	
 	@Override
@@ -20,6 +28,9 @@ public class Client implements Endpoint {
 		
 	}
 	
+	/*
+	 * Handles the data received.
+	 */
 	public void receiveData(Object data){
 		if(data instanceof SystemResponse){
 			((SystemResponse)data).proxyTo(this);

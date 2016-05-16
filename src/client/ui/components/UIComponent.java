@@ -1,4 +1,4 @@
-package client.ui;
+package client.ui.components;
 
 /*
  * Dummy class.
