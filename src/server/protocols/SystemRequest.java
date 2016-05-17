@@ -5,6 +5,7 @@ import java.io.Serializable;
 import server.Endpoint;
 import server.ISystemController;
 import users.datatypes.LoginInfo;
+import users.exceptions.UserException.UnknownUserException;
 
 /*
  * Request from a client to the system.
@@ -35,8 +36,13 @@ public abstract class SystemRequest implements Serializable {
 		
 		@Override
 		public void proxyTo(ISystemController controller, Endpoint client) {
-			int sessionId = controller.login(loginInfo);
-			client.sendData(new SystemResponse.LoginResponse(sessionId));
+			try{
+				int sessionId = controller.login(loginInfo);
+				client.sendData(new SystemResponse.LoginResponse(sessionId, null));
+			}catch(UnknownUserException e){
+				client.sendData(new SystemResponse.LoginResponse(-1, e));
+			}
+			
 		}
 		
 	}

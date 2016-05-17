@@ -5,7 +5,9 @@ import java.util.List;
 import sharedtypes.FilePath;
 import sharedtypes.RequestType;
 import users.datatypes.LoginInfo;
+import users.datatypes.User;
 import users.datatypes.UserLevel;
+import users.exceptions.UserException.UnknownUserException;
 import users.subsystems.IUserDAO;
 import users.subsystems.SessionManager;
 import users.subsystems.UserDAO;
@@ -69,9 +71,16 @@ public class UserMain implements UserInternalService, UserExternalService {
 	 */
 	
 	@Override
-	public int login(LoginInfo loginInfo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int login(LoginInfo loginInfo) throws UnknownUserException {
+		User user; int sessionId = -1;
+		
+		user = userDAO.getUser(loginInfo.userId);
+		
+		if (user.checkPassword(loginInfo.password)){
+			sessionId = sessionManager.generateSession(loginInfo.userId);
+		}
+		
+		return sessionId;
 	}
 
 	@Override

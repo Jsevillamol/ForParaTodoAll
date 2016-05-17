@@ -5,6 +5,7 @@ import java.util.List;
 import sharedtypes.FilePath;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
+import users.exceptions.UserException.UnknownUserException;
 
 /*
  * Functionality the subsystem user offers to external controllers.
@@ -14,7 +15,7 @@ public interface UserExternalService {
 	 * Verifies that the loginInfo is correct, and if successful generated a SessionId
 	 * which will be associated during a period of time to a user.
 	 */
-	int login(LoginInfo loginInfo);
+	int login(LoginInfo loginInfo) throws UnknownUserException;
 	
 	/*
 	 * Changes the info associated to an user

@@ -7,10 +7,10 @@ public class LoginInfo {
 	/*
 	 * Identifier of user.
 	 */
-	String userId;
+	public String userId;
 	
 	/*
 	 * Encrypted password.
 	 */
-	String password;
+	public String password;
 }

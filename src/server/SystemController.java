@@ -3,21 +3,35 @@ package server;
 import java.io.File;
 import java.util.List;
 
+import files.FileMain;
+import files.FilesExternalService;
 import files.datatypes.Project;
 import files.datatypes.Version;
 import sharedtypes.FilePath;
+import users.UserExternalService;
+import users.UserMain;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
+import users.exceptions.UserException.UnknownUserException;
 
 /*
  * Adapter which offers all the external functionality of the different systems.
  */
 public class SystemController implements ISystemController {
-
+	
+	/*
+	 * Handles petitions related to users.
+	 */
+	private UserExternalService usersSystem = UserMain.getUserExternalService();
+	
+	/*
+	 * Handles petitions related to files.
+	 */
+	private FilesExternalService filesSystem = FileMain.getExternalService();
+	
 	@Override
 	public void createProject(int sessionId, FilePath project, String description) {
-		// TODO Auto-generated method stub
-		
+		filesSystem.createProject(sessionId, project, description);
 	}
 
 	@Override
@@ -64,9 +78,8 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public int login(LoginInfo loginInfo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int login(LoginInfo loginInfo) throws UnknownUserException {
+		return usersSystem.login(loginInfo);
 	}
 
 	@Override

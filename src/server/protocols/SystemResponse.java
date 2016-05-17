@@ -17,9 +17,10 @@ public abstract class SystemResponse implements Serializable {
 	public abstract void proxyTo(Client client);
 	
 	/*
-	 * Marks if the request was successful.
+	 * Marks errors in the request.
+	 * If null, the request was succesful.
 	 */
-	protected boolean success;
+	protected Exception e = null;
 	
 	/*
 	 * Callback generated after a login.
@@ -29,14 +30,15 @@ public abstract class SystemResponse implements Serializable {
 		private static final long serialVersionUID = 2346696000095958526L;
 		private int sessionId;
 		
-		public LoginResponse(int sessionId){
+		public LoginResponse(int sessionId, Exception e){
 			this.sessionId = sessionId;
+			this.e = e;
 		}
 		
 		@Override
 		public void proxyTo(Client client) {
 			//Nonsense to keep warning at bay
-			if(sessionId<10 && success){
+			if(sessionId<10 && e == null){
 				
 			}
 		}

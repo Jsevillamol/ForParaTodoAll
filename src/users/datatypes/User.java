@@ -13,9 +13,15 @@ public class User {
 	String userId;
 	
 	/*
-	 * Hashed password for login checks.
+	 * Hashed password with salt for login checks.
 	 */
-	String password;
+	String hashedpassword;
+	
+	/*
+	 * To obfuscate the hashing. Is unique of each user and generated
+	 * randomly at user creation.
+	 */
+	String salt;
 	
 	/*
 	 * Privileges of user.
@@ -28,10 +34,12 @@ public class User {
 	List<FilePath> projects;
 	
 	/*
-	 * Returns true if the password corresponds to the stored password.
+	 * Returns true if the hashed password + salt 
+	 * corresponds to the stored password.
 	 */
 	public boolean checkPassword(String password){
-		return this.password.equals(password);
+		//password = hashPassword(password, this.salt)
+		return this.hashedpassword.equals(password);
 	}
 
 	public String getUserId() {

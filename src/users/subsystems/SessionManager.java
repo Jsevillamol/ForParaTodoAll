@@ -31,7 +31,8 @@ public class SessionManager {
 	}
 	
 	/*
-	 * Generates a session for user and returns the sessionId
+	 * Generates a session for user and returns the sessionId.
+	 * If the user already had a session, the previous session is deleted.
 	 */
 	public int generateSession(String userId){
 		int randomSession;
