@@ -9,7 +9,6 @@ import files.datatypes.Version;
 
 /*
  * Controls access to the actual repository of files.
- * It does not interact with any other subsystem.
  */
 public interface IFileDAO {
 	/*
@@ -23,7 +22,7 @@ public interface IFileDAO {
 	 * If a project with the same id already existed,
 	 * throws an error.
 	 */
-	Project createProject(Project project);
+	Project createProject(Project project, String description);
 	
 	/*
 	 * Delete the folder of a project, together with its contents.

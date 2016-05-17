@@ -6,6 +6,7 @@ import users.datatypes.User;
 
 /*
  * Controls access to the database of users.
+ * See IUserDAO for method information.
  */
 public class UserDAO implements IUserDAO {
 	

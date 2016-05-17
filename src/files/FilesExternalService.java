@@ -7,9 +7,17 @@ import files.datatypes.Project;
 import files.datatypes.Version;
 import sharedtypes.FilePath;
 
+/*
+ * Services offered by the Files system to external systems.
+ */
 public interface FilesExternalService {
 	//Creation methods
-	void createProject(int sessionId, FilePath project);
+	/*
+	 * Creates a project with the identifier indicated in FilePath.
+	 * Associates a description to it, as well as a creator and a date of creation
+	 * automatically.
+	 */
+	void createProject(int sessionId, FilePath project, String description);
 	
 	/*
 	 * Updates the file version.
@@ -40,6 +48,13 @@ public interface FilesExternalService {
 	File getVersion(int sessionId, Version version);
 	
 	//Deletion methods
+	/*
+	 * Deletes the file represented by path.
+	 */
 	void deleteFile(int sessionId, FilePath path);
+	
+	/*
+	 * Deletes the project represented by the FilePath.
+	 */
 	void deleteProject(int sessionId, FilePath project);
 }

@@ -65,7 +65,7 @@ public class ProxyController implements ISystemController {
 	}
 
 	@Override
-	public void createProject(int sessionId, FilePath project) {
+	public void createProject(int sessionId, FilePath project, String description) {
 		// TODO Auto-generated method stub
 
 	}

@@ -19,8 +19,11 @@ public abstract class SystemResponse implements Serializable {
 	/*
 	 * Marks if the request was successful.
 	 */
-	protected boolean exit;
+	protected boolean success;
 	
+	/*
+	 * Callback generated after a login.
+	 */
 	public static class LoginResponse extends SystemResponse{
 
 		private static final long serialVersionUID = 2346696000095958526L;
@@ -33,7 +36,7 @@ public abstract class SystemResponse implements Serializable {
 		@Override
 		public void proxyTo(Client client) {
 			//Nonsense to keep warning at bay
-			if(sessionId<10 && exit){
+			if(sessionId<10 && success){
 				
 			}
 		}

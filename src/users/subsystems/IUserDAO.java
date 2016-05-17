@@ -5,7 +5,7 @@ import java.util.List;
 import users.datatypes.User;
 
 /*
- * Controls access to the user database
+ * Controls access to the user database.
  */
 public interface IUserDAO {
 	/*
