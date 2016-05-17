@@ -3,7 +3,8 @@ package users.subsystems;
 import java.util.HashMap;
 import java.util.Map;
 
-import users.exceptions.SessionExpired;
+import users.exceptions.UserException.SessionExpired;
+
 
 /*
  * Generates sessions and deletes them after some time.
