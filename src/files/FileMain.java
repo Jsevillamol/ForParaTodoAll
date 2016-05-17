@@ -6,6 +6,7 @@ import java.util.List;
 import sharedtypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
+import files.subsystems.IFileDAO;
 
 /*
  * Singleton main class for the file subsystem.
@@ -15,6 +16,12 @@ import files.datatypes.Version;
  * Handles all calls to the File subsystem and interactions with other modules.
  */
 public class FileMain implements FilesExternalService{
+	
+	/*
+	 * Data Access Object which allows interactions with the 
+	 * project repository.
+	 */
+	IFileDAO fileDAO;
 	
 	/*
 	 * Creation of instances aside from singleton disallowed.
@@ -43,7 +50,7 @@ public class FileMain implements FilesExternalService{
 	}
 	
 	@Override
-	public void createProject(int sessionId, FilePath project) {
+	public void createProject(int sessionId, FilePath project, String description) {
 		// TODO Auto-generated method stub
 		
 	}

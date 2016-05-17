@@ -6,6 +6,9 @@ import sharedtypes.FilePath;
 import sharedtypes.RequestType;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
+import users.subsystems.IUserDAO;
+import users.subsystems.SessionManager;
+import users.subsystems.UserDAO;
 
 /*
  * Singleton facade which builds the whole subsystem and offers its functionality
@@ -15,6 +18,17 @@ import users.datatypes.UserLevel;
  * as one of the interfaces it implements.
  */
 public class UserMain implements UserInternalService, UserExternalService {
+	
+	/*
+	 * Manages the creation, association and deletion of sessions.
+	 */
+	SessionManager sessionManager = SessionManager.getReference();
+	
+	/*
+	 * Manages the user database. 
+	 * Creates and stores Users.
+	 */
+	IUserDAO userDAO = UserDAO.getReference();
 	
 	/*
 	 * Constructor is private, as this is a singleton.
