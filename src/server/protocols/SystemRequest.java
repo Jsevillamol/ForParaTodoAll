@@ -3,13 +3,13 @@ package server.protocols;
 import java.io.Serializable;
 
 import server.Endpoint;
-import server.SystemController;
+import server.ISystemController;
 import users.datatypes.LoginInfo;
 
 /*
  * Request from a client to the system.
  * Must be processed over a controller, and may
- * generate a callback on the client.
+ * generate a callback on the client in the form of a SystemResponse.
  */
 public abstract class SystemRequest implements Serializable {
 	
@@ -19,7 +19,7 @@ public abstract class SystemRequest implements Serializable {
 	 * Executes the request on the system and then makes a callback to client
 	 * if pertinent.
 	 */
-	public abstract void proxyTo(SystemController controller, Endpoint client);
+	public abstract void proxyTo(ISystemController controller, Endpoint client);
 	
 	/*
 	 * Request to make a new session on the system.
@@ -34,7 +34,7 @@ public abstract class SystemRequest implements Serializable {
 		}
 		
 		@Override
-		public void proxyTo(SystemController controller, Endpoint client) {
+		public void proxyTo(ISystemController controller, Endpoint client) {
 			int sessionId = controller.login(loginInfo);
 			client.sendData(new SystemResponse.LoginResponse(sessionId));
 		}

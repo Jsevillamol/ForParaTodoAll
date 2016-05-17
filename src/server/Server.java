@@ -43,5 +43,8 @@ public class Server {
 		//TODO
 	}
 	
-	SystemController controller;
+	/*
+	 * Interface to interact with the system.
+	 */
+	ISystemController controller = new SystemController();
 }
