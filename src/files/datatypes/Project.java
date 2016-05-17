@@ -1,5 +1,6 @@
 package files.datatypes;
 
+import java.io.Serializable;
 import java.util.List;
 
 import sharedtypes.FilePath;
@@ -7,7 +8,10 @@ import sharedtypes.FilePath;
 /*
  * 
  */
-public class Project {
+public class Project implements Serializable {
+	
+	private static final long serialVersionUID = 4824134341813495012L;
+	
 	String id;
 	String description;
 	
