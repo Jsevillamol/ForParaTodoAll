@@ -65,7 +65,7 @@ public class Server {
 		 * Upon creation, initializes an output stream and
 		 * launches a listener thread.
 		 */
-		ProxyClient(Socket socket){
+		ProxyClient(final Socket socket){
 			//Init oos
 			try {
 				oos = new ObjectOutputStream(socket.getOutputStream());
