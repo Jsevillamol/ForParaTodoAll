@@ -1,5 +1,8 @@
 package server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import server.protocols.SystemRequest;
 
 /*
@@ -8,12 +11,17 @@ import server.protocols.SystemRequest;
  */
 public class Server {
 	
+	
+	/*
+	 * A list that contains all clients(ProxyClients) connected to the server.
+	 * */
+	List<ProxyClient> proxyClients = new ArrayList<ProxyClient>();
 	/*
 	 * Encapsulates a connection to a client.
 	 * Not to be confused with Client.client, which is a real client.
 	 * This class is a connection to such a client.
 	 */
-	public class Client implements Endpoint{
+	public class ProxyClient implements Endpoint{
 
 		@Override
 		public synchronized void sendData(Object data) {
