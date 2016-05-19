@@ -8,7 +8,7 @@ import files.datatypes.Project;
 import files.datatypes.Version;
 import files.subsystems.IFileDAO;
 
-/*
+/**
  * Singleton main class for the file subsystem.
  * Includes a static factory method to get a reference to the system.
  * 
@@ -17,33 +17,32 @@ import files.subsystems.IFileDAO;
  */
 public class FileMain implements FilesExternalService{
 	
-	/*
+	/**
 	 * Data Access Object which allows interactions with the 
 	 * project repository.
 	 */
 	IFileDAO fileDAO;
 	
-	/*
+	/**
 	 * Creation of instances aside from singleton disallowed.
 	 */
 	private FileMain(){};
 	
 	private static FileMain singleton = null;
 	
-	/*
+	/**
 	 * Singleton factory.
 	 * Returns a reference to the singleton.
 	 * If there is no reference yet, creates it.
 	 */
 	private static FileMain getReference(){
-		if(singleton == null){
+		if(singleton == null)
 			singleton = new FileMain();
-			return singleton;
-		} else return singleton;
+		return singleton;
 	}
 	
-	/*
-	 * Factory method for the singleton as a FileExternalService
+	/**
+	 * Method for the singleton as a FileExternalService
 	 */
 	public static FilesExternalService getExternalService(){
 		return getReference();

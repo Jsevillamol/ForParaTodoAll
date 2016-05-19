@@ -11,13 +11,13 @@ import sharedtypes.FilePath;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
 
-/*
+/**
  * Wraps calls to a controller in a SystemResponse and passes them
  * to an Endpoint to be sent to the server.
  */
 public class ProxyController implements ISystemController {
 	
-	/*
+	/**
 	 * Class to which generated messages are sent to be communicated.
 	 */
 	Endpoint sender;

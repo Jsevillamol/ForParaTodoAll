@@ -14,17 +14,17 @@ import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
 import users.exceptions.UserException.UnknownUserException;
 
-/*
+/**
  * Adapter which offers all the external functionality of the different systems.
  */
 public class SystemController implements ISystemController {
 	
-	/*
+	/**
 	 * Handles petitions related to users.
 	 */
 	private UserExternalService usersSystem = UserMain.getUserExternalService();
 	
-	/*
+	/**
 	 * Handles petitions related to files.
 	 */
 	private FilesExternalService filesSystem = FileMain.getExternalService();

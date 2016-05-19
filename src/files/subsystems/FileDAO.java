@@ -7,26 +7,25 @@ import sharedtypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
 
-/*
+/**
  * Singleton implementing IFileDAO.
  */
 public class FileDAO implements IFileDAO {
 	
-	/*
+	/**
 	 * Creation of instances aside from singleton disallowed.
 	 */
 	private FileDAO(){};
 	
 	private static FileDAO singleton = null;
 	
-	/*
-	 * Factory method for the singleton
+	/**
+	 * Singleton method
 	 */
 	public static IFileDAO getReference(){
-		if(singleton == null){
+		if(singleton == null)
 			singleton = new FileDAO();
-			return singleton;
-		} else return singleton;
+		return singleton;
 	}
 	
 	@Override

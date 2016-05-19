@@ -1,6 +1,6 @@
 package sharedtypes;
 
-/*
+/**
  * Identifies a type of request to files
  * for permits verification purposes
  */
