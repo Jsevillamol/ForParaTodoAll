@@ -2,7 +2,7 @@ package users;
 
 import java.util.List;
 
-import sharedtypes.FilePath;
+import files.datatypes.FilePath;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
 import users.exceptions.UserException.UnknownUserException;

@@ -1,4 +1,4 @@
-package sharedtypes;
+package files.datatypes;
 
 import java.io.Serializable;
 

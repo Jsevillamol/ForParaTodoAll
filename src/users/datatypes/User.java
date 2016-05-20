@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import sharedtypes.FilePath;
+import files.datatypes.FilePath;
 
 /*
  * Object which represents an user.

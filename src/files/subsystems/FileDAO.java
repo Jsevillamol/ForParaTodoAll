@@ -3,7 +3,7 @@ package files.subsystems;
 import java.io.File;
 import java.util.List;
 
-import sharedtypes.FilePath;
+import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
 

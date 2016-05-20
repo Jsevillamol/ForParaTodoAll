@@ -1,7 +1,7 @@
 package users;
 
-import sharedtypes.FilePath;
-import sharedtypes.RequestType;
+import files.datatypes.FilePath;
+import users.datatypes.RequestType;
 
 /*
  * API the subsystem users offers to other subsystems.

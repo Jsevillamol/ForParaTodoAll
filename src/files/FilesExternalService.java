@@ -3,9 +3,9 @@ package files;
 import java.io.File;
 import java.util.List;
 
+import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
-import sharedtypes.FilePath;
 
 /**
  * Services offered by the Files system to external systems.

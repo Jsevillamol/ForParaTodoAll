@@ -3,11 +3,11 @@ package client.connect;
 import java.io.File;
 import java.util.List;
 
+import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
 import server.Endpoint;
 import server.ISystemController;
-import sharedtypes.FilePath;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
 

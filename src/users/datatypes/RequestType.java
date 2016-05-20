@@ -1,4 +1,4 @@
-package sharedtypes;
+package users.datatypes;
 
 /**
  * Identifies a type of request to files

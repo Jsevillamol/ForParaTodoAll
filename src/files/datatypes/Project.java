@@ -3,8 +3,6 @@ package files.datatypes;
 import java.io.Serializable;
 import java.util.List;
 
-import sharedtypes.FilePath;
-
 /**
  * A representation of a project.
  * It contains an ID, a description and a list of files.

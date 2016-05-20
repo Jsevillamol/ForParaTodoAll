@@ -5,9 +5,9 @@ import java.util.List;
 
 import files.FileMain;
 import files.FilesExternalService;
+import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
-import sharedtypes.FilePath;
 import users.UserExternalService;
 import users.UserMain;
 import users.datatypes.LoginInfo;
