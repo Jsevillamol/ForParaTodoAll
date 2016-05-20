@@ -37,43 +37,39 @@ public class SystemController implements ISystemController {
 	@Override
 	public void updateFile(int sessionId, FilePath path, File file,
 			String comment) {
-		// TODO Auto-generated method stub
+		filesSystem.updateFile(sessionId, path, file, comment);
 		
 	}
 
 	@Override
 	public Project getProject(int sessionId, FilePath project) {
-		// TODO Auto-generated method stub
-		return null;
+		return filesSystem.getProject(sessionId, project);
 	}
 
 	@Override
 	public List<Version> getHistory(int sessionId, FilePath file) {
-		// TODO Auto-generated method stub
-		return null;
+		return filesSystem.getHistory(sessionId, file);
 	}
 
 	@Override
 	public List<FilePath> findProjects(int sessionId, String regex) {
-		// TODO Auto-generated method stub
-		return null;
+		return filesSystem.findProjects(sessionId, regex);
 	}
 
 	@Override
 	public File getVersion(int sessionId, Version version) {
-		// TODO Auto-generated method stub
-		return null;
+		return filesSystem.getVersion(sessionId, version);
 	}
 
 	@Override
 	public void deleteFile(int sessionId, FilePath path) {
-		// TODO Auto-generated method stub
+		filesSystem.deleteFile(sessionId, path);
 		
 	}
 
 	@Override
 	public void deleteProject(int sessionId, FilePath project) {
-		// TODO Auto-generated method stub
+		filesSystem.deleteFile(sessionId, project);
 		
 	}
 
@@ -84,34 +80,29 @@ public class SystemController implements ISystemController {
 
 	@Override
 	public boolean changeLoginInfo(int sessionId, LoginInfo newInfo) {
-		// TODO Auto-generated method stub
-		return false;
+		return usersSystem.changeLoginInfo(sessionId, newInfo);
 	}
 
 	@Override
 	public List<FilePath> getProjects(int sessionId) {
-		// TODO Auto-generated method stub
-		return null;
+		return usersSystem.getProjects(sessionId);
 	}
 
 	@Override
 	public boolean createUser(int sessionId, LoginInfo newUserInfo,
 			UserLevel newUserLevel) {
-		// TODO Auto-generated method stub
-		return false;
+		return usersSystem.createUser(sessionId, newUserInfo, newUserLevel);
 	}
 
 	@Override
 	public boolean addUserToProject(int sessionId, String userId,
 			FilePath project) {
-		// TODO Auto-generated method stub
-		return false;
+		return usersSystem.addUserToProject(sessionId, userId, project);
 	}
 
 	@Override
 	public boolean changeLevel(int sessionId, String user, UserLevel newLevel) {
-		// TODO Auto-generated method stub
-		return false;
+		return usersSystem.changeLevel(sessionId, user, newLevel);
 	}
 
 }
