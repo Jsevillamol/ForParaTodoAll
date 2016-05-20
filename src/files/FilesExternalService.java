@@ -3,6 +3,8 @@ package files;
 import java.io.File;
 import java.util.List;
 
+import users.exceptions.UserException.SessionExpired;
+import files.FileExceptions.ProjectAlreadyExists;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
@@ -16,8 +18,10 @@ public interface FilesExternalService {
 	 * Creates a project with the identifier indicated in FilePath.
 	 * Associates a description to it, as well as a creator and a date of creation
 	 * automatically.
+	 * @throws ProjectAlreadyExists 
+	 * @throws SessionExpired 
 	 */
-	void createProject(int sessionId, FilePath project, String description);
+	void createProject(int sessionId, FilePath project, String description) throws SessionExpired, ProjectAlreadyExists;
 	
 	/**
 	 * Updates the file version.

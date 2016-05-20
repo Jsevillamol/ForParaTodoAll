@@ -22,7 +22,7 @@ public interface IFileDAO {
 	 * If a project with the same id already existed,
 	 * throws an error.
 	 */
-	Project createProject(Project project, String description);
+	Project createProject(FilePath project, String description);
 	
 	/*
 	 * Delete the folder of a project, together with its contents.

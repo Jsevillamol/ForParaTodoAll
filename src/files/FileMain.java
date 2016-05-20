@@ -3,9 +3,15 @@ package files;
 import java.io.File;
 import java.util.List;
 
+import users.UserInternalService;
+import users.UserMain;
+import users.datatypes.RequestType;
+import users.exceptions.UserException.SessionExpired;
+import files.FileExceptions.ProjectAlreadyExists;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
+import files.subsystems.FileDAO;
 import files.subsystems.IFileDAO;
 
 /**
@@ -21,7 +27,12 @@ public class FileMain implements FilesExternalService{
 	 * Data Access Object which allows interactions with the 
 	 * project repository.
 	 */
-	IFileDAO fileDAO;
+	IFileDAO fileDAO = FileDAO.getReference();
+	
+	/**
+	 * Interface to user subsystem for request validation, etc.
+	 */
+	UserInternalService userSystem = UserMain.getUserInternalService();
 	
 	/**
 	 * Creation of instances aside from singleton disallowed.
@@ -49,49 +60,51 @@ public class FileMain implements FilesExternalService{
 	}
 	
 	@Override
-	public void createProject(int sessionId, FilePath project, String description) {
+	public void createProject(final int sessionId, final FilePath project, final String description) throws SessionExpired, ProjectAlreadyExists {
+		if(userSystem.validateRequest(sessionId, RequestType.CreateProjectRequest, project)){
+			fileDAO.createProject(project, description);
+		}
+		
+	}
+
+	@Override
+	public void updateFile(final int sessionId, final FilePath path, final File file, final String comment) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void updateFile(int sessionId, FilePath path, File file, String comment) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Project getProject(int sessionId, FilePath project) {
+	public Project getProject(final int sessionId, final FilePath project) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Version> getHistory(int sessionId, FilePath file) {
+	public List<Version> getHistory(final int sessionId, final FilePath file) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public File getVersion(int sessionId, Version version) {
+	public File getVersion(final int sessionId, final Version version) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteFile(int sessionId, FilePath path) {
+	public void deleteFile(final int sessionId, final FilePath path) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteProject(int sessionId, FilePath project) {
+	public void deleteProject(final int sessionId, final FilePath project) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<FilePath> findProjects(int sessionId, String regex) {
+	public List<FilePath> findProjects(final int sessionId, final String regex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
