@@ -11,6 +11,7 @@ import users.exceptions.UserException.UnknownUserException;
  * Request from a client to the system.
  * Must be processed over a controller, and may
  * generate a callback on the client in the form of a SystemResponse.
+ * Every request is a data transfer object.
  */
 public abstract class SystemRequest implements Serializable {
 	
@@ -28,18 +29,18 @@ public abstract class SystemRequest implements Serializable {
 	public static class LoginRequest extends SystemRequest {
 		
 		private static final long serialVersionUID = 464573050319618154L;
-		private LoginInfo loginInfo;
+		private final LoginInfo loginInfo;
 
-		LoginRequest(LoginInfo loginInfo){
+		LoginRequest(final LoginInfo loginInfo){
 			this.loginInfo = loginInfo;
 		}
 		
 		@Override
-		public void proxyTo(ISystemController controller, Endpoint client) {
+		public void proxyTo(final ISystemController controller, final Endpoint client) {
 			try{
-				int sessionId = controller.login(loginInfo);
+				final int sessionId = controller.login(loginInfo);
 				client.sendData(new SystemResponse.LoginResponse(sessionId, null));
-			}catch(UnknownUserException e){
+			}catch(final UnknownUserException e){
 				client.sendData(new SystemResponse.LoginResponse(-1, e));
 			}
 			
