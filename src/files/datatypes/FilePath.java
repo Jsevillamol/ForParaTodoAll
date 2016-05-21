@@ -9,6 +9,32 @@ import java.io.Serializable;
  */
 public class FilePath implements Serializable {
 	
+	public FilePath(final String projectId, final String path) {
+		this.projectId = projectId;
+		this.path = path;
+	}
+
+	public FilePath(final String projectId2) {
+		this.projectId = projectId2;
+		this.path = null;
+	}
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(final String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(final String path) {
+		this.path = path;
+	}
+
 	private static final long serialVersionUID = 2360837520640879115L;
 
 	/**
