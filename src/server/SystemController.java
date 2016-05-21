@@ -17,7 +17,8 @@ import files.datatypes.Project;
 import files.datatypes.Version;
 
 /**
- * Adapter which offers all the external functionality of the different systems.
+ * Controller which offers all the external functionality of the different systems.
+ * Also acts as a bridge, decoupling the implementation of the subsystems.
  */
 public class SystemController implements ISystemController {
 	
