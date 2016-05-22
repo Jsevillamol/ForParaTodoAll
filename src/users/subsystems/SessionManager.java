@@ -11,7 +11,7 @@ import users.exceptions.UserException.SessionExpired;
  * Singleton.
  */
 public class SessionManager {
-	private Map<Integer, String> sessions = new HashMap<>();
+	private final Map<Integer, String> sessions = new HashMap<>();
 	
 	/*
 	 * Creation of instances aside from singleton disallowed.
@@ -23,7 +23,7 @@ public class SessionManager {
 	/*
 	 * Factory method for the singleton
 	 */
-	public static SessionManager getReference(){
+	public static synchronized SessionManager getReference(){
 		if(singleton == null){
 			singleton = new SessionManager();
 			return singleton;
@@ -34,7 +34,7 @@ public class SessionManager {
 	 * Generates a session for user and returns the sessionId.
 	 * If the user already had a session, the previous session is deleted.
 	 */
-	public int generateSession(String userId){
+	public int generateSession(final String userId){
 		int randomSession;
 		do{
 			randomSession = 42; //TODO gen random number
@@ -47,7 +47,7 @@ public class SessionManager {
 	 * Returns the user associated with sessionId.
 	 * If no session has that ID, raises an exception.
 	 */
-	public String getUser(int sessionId) throws SessionExpired{
+	public String getUser(final int sessionId) throws SessionExpired{
 		return sessions.get(sessionId);
 	}
 }

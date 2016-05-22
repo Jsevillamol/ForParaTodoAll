@@ -95,7 +95,7 @@ public class FileDAO implements IFileDAO {
 	/**
 	 * Singleton method
 	 */
-	public static IFileDAO getReference(){
+	public static synchronized IFileDAO getReference(){
 		if(singleton == null)
 			singleton = new FileDAO();
 		return singleton;

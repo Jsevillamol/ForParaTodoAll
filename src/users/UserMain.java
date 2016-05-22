@@ -2,7 +2,6 @@ package users;
 
 import java.util.List;
 
-import files.datatypes.FilePath;
 import users.datatypes.LoginInfo;
 import users.datatypes.RequestType;
 import users.datatypes.User;
@@ -11,6 +10,7 @@ import users.exceptions.UserException.UnknownUserException;
 import users.subsystems.IUserDAO;
 import users.subsystems.SessionManager;
 import users.subsystems.UserDAO;
+import files.datatypes.FilePath;
 
 /*
  * Singleton facade which builds the whole subsystem and offers its functionality
@@ -44,7 +44,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 	 * Returns a reference to the singleton.
 	 * If there is no reference yet, creates it.
 	 */
-	private static UserMain getReference(){
+	private static synchronized UserMain getReference(){
 		if(singleton == null){
 			singleton = new UserMain();
 			return singleton;
@@ -71,7 +71,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 	 */
 	
 	@Override
-	public int login(LoginInfo loginInfo) throws UnknownUserException {
+	public int login(final LoginInfo loginInfo) throws UnknownUserException {
 		User user; int sessionId = -1;
 		
 		user = userDAO.getUser(loginInfo.userId);
@@ -84,33 +84,33 @@ public class UserMain implements UserInternalService, UserExternalService {
 	}
 
 	@Override
-	public boolean changeLoginInfo(int sessionId, LoginInfo newInfo) {
+	public boolean changeLoginInfo(final int sessionId, final LoginInfo newInfo) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public List<FilePath> getProjects(int sessionId) {
+	public List<FilePath> getProjects(final int sessionId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean createUser(int sessionId, LoginInfo newUserInfo,
-			UserLevel newUserLevel) {
+	public boolean createUser(final int sessionId, final LoginInfo newUserInfo,
+			final UserLevel newUserLevel) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean addUserToProject(int sessionId, String userId,
-			FilePath project) {
+	public boolean addUserToProject(final int sessionId, final String userId,
+			final FilePath project) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean changeLevel(int sessionId, String user, UserLevel newLevel) {
+	public boolean changeLevel(final int sessionId, final String user, final UserLevel newLevel) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -120,26 +120,26 @@ public class UserMain implements UserInternalService, UserExternalService {
 	 */
 	
 	@Override
-	public boolean validateRequest(int sessionId, RequestType request,
-			FilePath filePath) {
+	public boolean validateRequest(final int sessionId, final RequestType request,
+			final FilePath filePath) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public String identify(int SessionId) {
+	public String identify(final int SessionId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void sudoAddUserToProject(String UserId, FilePath project) {
+	public void sudoAddUserToProject(final String UserId, final FilePath project) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteReferences(FilePath project) {
+	public void deleteReferences(final FilePath project) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -46,7 +46,7 @@ public class FileMain implements FilesExternalService{
 	 * Returns a reference to the singleton.
 	 * If there is no reference yet, creates it.
 	 */
-	private static FileMain getReference(){
+	private synchronized static FileMain getReference(){
 		if(singleton == null)
 			singleton = new FileMain();
 		return singleton;

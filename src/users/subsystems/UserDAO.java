@@ -20,7 +20,7 @@ public class UserDAO implements IUserDAO {
 	/*
 	 * Factory method for the singleton
 	 */
-	public static IUserDAO getReference(){
+	public static synchronized IUserDAO getReference(){
 		if(singleton == null){
 			singleton = new UserDAO();
 			return singleton;
@@ -28,22 +28,22 @@ public class UserDAO implements IUserDAO {
 	}
 	
 	@Override
-	public User getUser(String userId){
+	public User getUser(final String userId){
 		return null;//TODO
 	}
 	
 	@Override
-	public void storeUser(User user){
+	public void storeUser(final User user){
 		//TODO
 	}
 	
 	@Override
-	public List<String> searchUsers(String regex){
+	public List<String> searchUsers(final String regex){
 		return null; //TODO
 	}
 	
 	@Override
-	public boolean contains(String userId) {
+	public boolean contains(final String userId) {
 		// TODO Auto-generated method stub
 		return false;
 	}
