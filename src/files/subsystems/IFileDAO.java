@@ -6,6 +6,7 @@ import java.util.List;
 
 import files.FileExceptions.InexistentFile;
 import files.FileExceptions.InexistentProject;
+import files.FileExceptions.InexistentVersion;
 import files.FileExceptions.ProjectAlreadyExists;
 import files.FileExceptions.VersionAlreadyExists;
 import files.datatypes.FilePath;
@@ -20,7 +21,7 @@ public interface IFileDAO {
 	 * Returns the project file hierarchy of the project represented by FilePath,
 	 * plus metadata.
 	 */
-	Project getProject(FilePath project);
+	Project getProject(FilePath project) throws InexistentProject;
 	
 	/*
 	 * Stores a new project.
@@ -32,7 +33,7 @@ public interface IFileDAO {
 	/*
 	 * Delete the folder of a project, together with its contents.
 	 */
-	void deleteProject(FilePath project);
+	void deleteProject(FilePath project) throws InexistentProject;
 	
 	/*
 	 * Returns a list of projects whose id matches the regex.
@@ -42,12 +43,12 @@ public interface IFileDAO {
 	/*
 	 * Returns a list of the versions of a file, with metadata.
 	 */
-	List<Version> getVersions(FilePath file);
+	List<Version> getVersions(FilePath file) throws InexistentProject, InexistentFile;
 	
 	/*
 	 * Returns the file represented by versionId.
 	 */
-	File getFile(FilePath file, String versionId);
+	File getFile(FilePath file, String versionId) throws InexistentProject, InexistentFile, InexistentVersion;
 	
 	/*
 	 * Stores the file together with its version info.

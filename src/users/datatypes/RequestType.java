@@ -7,5 +7,6 @@ package users.datatypes;
 public enum RequestType {
 	Create,
 	Delete,
-	Edit//TODO: all the other requests
+	Edit,
+	Consult
 }

@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import files.FileExceptions.InexistentFile;
 import files.FileExceptions.InexistentProject;
+import files.FileExceptions.InexistentVersion;
 import files.FileExceptions.ProjectAlreadyExists;
 import files.FileExceptions.VersionAlreadyExists;
 import files.datatypes.FilePath;
@@ -102,7 +103,8 @@ public class FileDAO implements IFileDAO {
 	}
 	
 	@Override
-	public Project getProject(final FilePath project) {
+	public Project getProject(final FilePath project) throws InexistentProject{
+		if(!database.containsKey(project)) throw new InexistentProject(project);
 		final Repository repo = database.get(project);
 		final Project res = new Project(project.getProjectId(), repo.description, repo.repository.keySet());
 		return res;
@@ -117,7 +119,9 @@ public class FileDAO implements IFileDAO {
 	}
 
 	@Override
-	public void deleteProject(final FilePath project) {
+	public void deleteProject(final FilePath project) throws InexistentProject {
+		if(!database.containsKey(project))
+			throw new InexistentProject(project);
 		database.remove(project);
 	}
 
@@ -127,8 +131,13 @@ public class FileDAO implements IFileDAO {
 	}
 
 	@Override
-	public List<Version> getVersions(final FilePath file) {
-		final Repository repo = database.get(new FilePath(file.getProjectId()));
+	public List<Version> getVersions(final FilePath file) throws InexistentProject, InexistentFile {
+		final FilePath project = new FilePath(file.getProjectId());
+		if(!database.containsKey(project))
+			throw new InexistentProject(project);
+		final Repository repo = database.get(project);
+		if(!repo.repository.containsKey(file))
+			throw new InexistentFile(file);
 		final FileHistory fh = repo.repository.get(file);
 		final List<Version> res = new ArrayList<>();
 		for(final FileVersion v : fh.fileHistory.values()){
@@ -138,9 +147,16 @@ public class FileDAO implements IFileDAO {
 	}
 
 	@Override
-	public File getFile(final FilePath file, final String versionId) {
-		final Repository repo = database.get(new FilePath(file.getProjectId()));
+	public File getFile(final FilePath file, final String versionId) throws InexistentProject, InexistentFile, InexistentVersion {
+		final FilePath project = new FilePath(file.getProjectId());
+		if(!database.containsKey(project))
+			throw new InexistentProject(project);
+		final Repository repo = database.get(project);
+		if(!repo.repository.containsKey(file))
+			throw new InexistentFile(file);
 		final FileHistory fh = repo.repository.get(file);
+		if(!fh.fileHistory.containsKey(versionId))
+			throw new InexistentVersion(versionId);
 		return fh.fileHistory.get(versionId).file;
 	}
 

@@ -1,5 +1,6 @@
 package files;
 
+import users.datatypes.RequestType;
 import files.datatypes.FilePath;
 
 /**
@@ -62,6 +63,43 @@ public class FileExceptions extends Exception{
 		}
 
 		private static final long serialVersionUID = 12L;
+		
+	}
+	
+	/**
+	 * Thrown when access is solicited to a version which does not exist.
+	 * @author Jaime
+	 *
+	 */
+	public static class InexistentVersion extends FileExceptions{
+
+		private final String versionId;
+
+		public InexistentVersion(final String id) {
+			this.versionId = id;
+		}
+
+		private static final long serialVersionUID = 13L;
+		
+	}
+	
+	/**
+	 * Thrown when a user sends a request without having
+	 * the privileges to do so.
+	 * The filePath indicates over which project/file the user was attempting
+	 * the operation. If null, then the operation was over the whole database.
+	 * @author Jaime
+	 *
+	 */
+	public static class InvalidRequest extends FileExceptions{
+		private final RequestType create;
+		private final FilePath project;
+		public InvalidRequest(final RequestType create, final FilePath project) {
+			this.create = create;
+			this.project = project;
+		}
+
+		private static final long serialVersionUID = 1L;
 		
 	}
 }
