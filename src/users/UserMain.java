@@ -13,7 +13,7 @@ import users.subsystems.SessionManager;
 import users.subsystems.UserDAO;
 import files.datatypes.FilePath;
 
-/*
+/**
  * Singleton facade which builds the whole subsystem and offers its functionality
  * to other subsystems and controllers.
  * 
@@ -22,25 +22,25 @@ import files.datatypes.FilePath;
  */
 public class UserMain implements UserInternalService, UserExternalService {
 	
-	/*
+	/**
 	 * Manages the creation, association and deletion of sessions.
 	 */
 	SessionManager sessionManager = SessionManager.getReference();
 	
-	/*
+	/**
 	 * Manages the user database. 
 	 * Creates and stores Users.
 	 */
 	IUserDAO userDAO = UserDAO.getReference();
 	
-	/*
+	/**
 	 * Constructor is private, as this is a singleton.
 	 */
 	private UserMain(){}
 	
 	private static UserMain singleton = null;
 	
-	/*
+	/**
 	 * Singleton factory.
 	 * Returns a reference to the singleton.
 	 * If there is no reference yet, creates it.
@@ -52,24 +52,20 @@ public class UserMain implements UserInternalService, UserExternalService {
 		} else return singleton;
 	}
 	
-	/*
+	/**
 	 * Factory method for the singleton as a UserInternalService
 	 */
 	public static UserInternalService getUserInternalService(){
 		return getReference();
 	}
 	
-	/*
+	/**
 	 * Factory method for the singleton as a UserInternalService
 	 */
 	public static UserExternalService getUserExternalService(){
 		return getReference();
 	}
 	
-	
-	/*
-	 * UserExternalService interface methods
-	 */
 	
 	/*
 	 * UserExternalService interface methods
@@ -89,20 +85,12 @@ public class UserMain implements UserInternalService, UserExternalService {
 	}
 
 	@Override
-	public boolean changeLoginInfo(final int sessionId, final LoginInfo newInfo) throws SessionExpired, UnknownUserException {
+	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo) 
+			throws SessionExpired, UnknownUserException {
 		
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
-		
-		boolean changeDone;
-		if(user != null){
-			user.changeInfo(newInfo);
-			changeDone=true;
-		}
-		
-		else changeDone=false;
-		
-		return changeDone;
+		user.changeInfo(newInfo);
 	}
 
 	@Override
@@ -112,39 +100,45 @@ public class UserMain implements UserInternalService, UserExternalService {
 	}
 
 	@Override
-	public boolean createUser(final int sessionId, final LoginInfo newUserInfo,
+	public void createUser(final int sessionId, final LoginInfo newUserInfo,
 			final UserLevel newUserLevel) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
-	public boolean addUserToProject(final int sessionId, final String userId,
+	public void addUserToProject(final int sessionId, final String userId,
 			final FilePath project) throws UnknownUserException, SessionExpired {
 		
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
-		
-		return user.addUserToProject(project);
-		
+		user.addUserToProject(project);
 		
 	}
 
 	@Override
-	public boolean changeLevel(final int sessionId, final String user, final UserLevel newLevel) throws UnknownUserException {
+	public void changeLevel(
+			final int sessionId, final String user, final UserLevel newLevel) 
+					throws UnknownUserException {
 		
 		final User userAux = userDAO.getUser(user);
+		userAux.changeLevel(newLevel);
+		
+	}
 	
+	@Override
+	public void deleteUserFromProject(final int sessionId, final String userId,
+			final FilePath project) throws SessionExpired, UnknownUserException{
+		final String stringUser = sessionManager.getUser(sessionId);
+		final User user = userDAO.getUser(stringUser);
+		user.addUserToProject(project);
+	}
+
+	@Override
+	public void deleteUser(final int sessionId) throws SessionExpired {
+		final String stringUser = sessionManager.getUser(sessionId);
 		
-		boolean changeDone=false;
-		if(user != null){
-			userAux.changeLevel(newLevel);
-			changeDone=true;
-		}
+		userDAO.deleteUser(stringUser);
 		
-		else changeDone=false;
-		
-		return changeDone;
 	}
 	
 	/*
@@ -176,24 +170,6 @@ public class UserMain implements UserInternalService, UserExternalService {
 		
 	}
 
-	@Override
-	public boolean deleteUserFromProject(final int sessionId, final String userId,
-			final FilePath project) throws SessionExpired, UnknownUserException{
-		
-		
-		final String stringUser = sessionManager.getUser(sessionId);
-		final User user = userDAO.getUser(stringUser);
-		return user.addUserToProject(project);
-		
-
-	}
-
-	@Override
-	public boolean deleteUser(final int sessionId) throws UserException {
-		final String stringUser = sessionManager.getUser(sessionId);
-		
-		return userDAO.deleteUser(stringUser);
-		
-	}
+	
 
 }

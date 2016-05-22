@@ -33,7 +33,7 @@ public class ProxyController implements ISystemController {
 	}
 
 	@Override
-	public boolean changeLoginInfo(int sessionId, LoginInfo newInfo) {
+	public void changeLoginInfo(int sessionId, LoginInfo newInfo) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -45,21 +45,21 @@ public class ProxyController implements ISystemController {
 	}
 
 	@Override
-	public boolean createUser(int sessionId, LoginInfo newUserInfo,
+	public void createUser(int sessionId, LoginInfo newUserInfo,
 			UserLevel newUserLevel) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean addUserToProject(int sessionId, String userId,
+	public void addUserToProject(int sessionId, String userId,
 			FilePath project) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean changeLevel(int sessionId, String user, UserLevel newLevel) {
+	public void changeLevel(int sessionId, String user, UserLevel newLevel) {
 		// TODO Auto-generated method stub
 		return false;
 	}

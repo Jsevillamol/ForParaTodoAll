@@ -84,7 +84,7 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public boolean changeLoginInfo(final int sessionId, final LoginInfo newInfo) {
+	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo) {
 		return usersSystem.changeLoginInfo(sessionId, newInfo);
 	}
 
@@ -94,19 +94,19 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public boolean createUser(final int sessionId, final LoginInfo newUserInfo,
+	public void createUser(final int sessionId, final LoginInfo newUserInfo,
 			final UserLevel newUserLevel) {
 		return usersSystem.createUser(sessionId, newUserInfo, newUserLevel);
 	}
 
 	@Override
-	public boolean addUserToProject(final int sessionId, final String userId,
+	public void addUserToProject(final int sessionId, final String userId,
 			final FilePath project) {
 		return usersSystem.addUserToProject(sessionId, userId, project);
 	}
 
 	@Override
-	public boolean changeLevel(final int sessionId, final String user, final UserLevel newLevel) {
+	public void changeLevel(final int sessionId, final String user, final UserLevel newLevel) {
 		return usersSystem.changeLevel(sessionId, user, newLevel);
 	}
 

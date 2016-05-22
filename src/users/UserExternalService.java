@@ -2,46 +2,59 @@ package users;
 
 import java.util.List;
 
-import files.datatypes.FilePath;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
+import users.exceptions.UserException.SessionExpired;
 import users.exceptions.UserException.UnknownUserException;
+import files.datatypes.FilePath;
 
-/*
+/**
  * Functionality the subsystem user offers to external controllers.
  */
 public interface UserExternalService {
-	/*
+	/**
 	 * Verifies that the loginInfo is correct, and if successful generated a SessionId
 	 * which will be associated during a period of time to a user.
 	 */
 	int login(LoginInfo loginInfo) throws UnknownUserException;
 	
-	/*
-	 * Changes the info associated to an user
+	/**
+	 * Adds a new user with the specified level to the database.
 	 */
-	boolean changeLoginInfo(int sessionId, LoginInfo newInfo);
+	void createUser(int sessionId, LoginInfo newUserInfo, UserLevel newUserLevel);
 	
-	/*
+	/**
+	 * Deletes the account of a logged user with the indicated sessionId.
+	 * 
+	 * @param sessionId
+	 * @throws SessionExpired
+	 */
+	void deleteUser(int sessionId) throws SessionExpired;
+	
+	/**
 	 * Returns a list of project identifiers in which the user is a participant.
 	 */
 	List<FilePath> getProjects(int sessionId);
 	
-	/*
-	 * Adds a new user with the specified level to the database.
+	/**
+	 * Changes the info associated to an user.
 	 */
-	boolean createUser(int sessionId, LoginInfo newUserInfo, UserLevel newUserLevel);
+	void changeLoginInfo(int sessionId, LoginInfo newInfo) throws SessionExpired, UnknownUserException;
 	
-	/*
-	 * Add a new collaborator to a project
+	/**
+	 * Changes the privileges of a user.
 	 */
-	boolean addUserToProject(int sessionId, String userId, FilePath project);
+	void changeLevel(int sessionId, String user, UserLevel newLevel) throws UnknownUserException;
 	
-	/*
-	 * Changes the level of a user.
+	/**
+	 * Add a new collaborator to a project.
 	 */
-	boolean changeLevel(int sessionId, String user, UserLevel newLevel);
+	void addUserToProject(int sessionId, String userId, FilePath project) throws UnknownUserException, SessionExpired;
 	
-	
+	/**
+	 * Removes the privileges of a user to edit a project.
+	 */
+	void deleteUserFromProject(int sessionId, String userId, FilePath project)
+			throws SessionExpired, UnknownUserException;
 	
 }

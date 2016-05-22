@@ -1,6 +1,6 @@
 package users.datatypes;
 
-/*
+/**
  * List of supported user levels.
  * Each level has different kind of privileges.
  */

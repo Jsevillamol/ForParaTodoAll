@@ -6,21 +6,21 @@ import java.util.Map;
 import users.exceptions.UserException.SessionExpired;
 
 
-/*
+/**
  * Generates sessions and deletes them after some time.
  * Singleton.
  */
 public class SessionManager {
 	private final Map<Integer, String> sessions = new HashMap<>();
 	
-	/*
+	/**
 	 * Creation of instances aside from singleton disallowed.
 	 */
 	private SessionManager(){};
 	
 	private static SessionManager singleton = null;
 	
-	/*
+	/**
 	 * Factory method for the singleton
 	 */
 	public static synchronized SessionManager getReference(){
@@ -30,7 +30,7 @@ public class SessionManager {
 		} else return singleton;
 	}
 	
-	/*
+	/**
 	 * Generates a session for user and returns the sessionId.
 	 * If the user already had a session, the previous session is deleted.
 	 */
@@ -43,7 +43,7 @@ public class SessionManager {
 		return randomSession;
 	}
 	
-	/*
+	/**
 	 * Returns the user associated with sessionId.
 	 * If no session has that ID, raises an exception.
 	 */
