@@ -96,7 +96,7 @@ public class ProxyController implements ISystemController {
 	}
 
 	@Override
-	public File getVersion(int sessionId, Version version) {
+	public File getVersion(int sessionId, Version version, FilePath path) {
 		// TODO Auto-generated method stub
 		return null;
 	}
