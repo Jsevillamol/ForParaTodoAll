@@ -4,7 +4,10 @@ import java.io.File;
 import java.util.List;
 
 import users.exceptions.UserException.SessionExpired;
+import files.FileExceptions.InexistentFile;
+import files.FileExceptions.InexistentProject;
 import files.FileExceptions.ProjectAlreadyExists;
+import files.FileExceptions.VersionAlreadyExists;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
@@ -26,8 +29,10 @@ public interface FilesExternalService {
 	/**
 	 * Updates the file version.
 	 * If there was no previous version, creates a new file.
+	 * @throws InexistentProject 
+	 * @throws VersionAlreadyExists 
 	 */
-	void updateFile(int sessionId, FilePath path, File file, String comment);
+	void updateFile(int sessionId, FilePath path, File file, String comment) throws VersionAlreadyExists, InexistentProject;
 	
 	//Access methods:
 	/**
@@ -49,16 +54,20 @@ public interface FilesExternalService {
 	/**
 	 * Returns a specific version of a file.
 	 */
-	File getVersion(int sessionId, Version version);
+	File getVersion(int sessionId, Version version, FilePath path);
 	
 	//Deletion methods:
 	/**
 	 * Deletes the file represented by path.
+	 * @throws InexistentFile 
+	 * @throws InexistentProject 
 	 */
-	void deleteFile(int sessionId, FilePath path);
+	void deleteFile(int sessionId, FilePath path) throws InexistentProject, InexistentFile;
 	
 	/**
 	 * Deletes the project represented by the FilePath.
+	 * @throws InexistentFile 
+	 * @throws InexistentProject 
 	 */
-	void deleteProject(int sessionId, FilePath project);
+	void deleteProject(int sessionId, FilePath project) throws InexistentProject, InexistentFile;
 }

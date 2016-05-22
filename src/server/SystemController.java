@@ -9,7 +9,10 @@ import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
 import users.exceptions.UserException.SessionExpired;
 import users.exceptions.UserException.UnknownUserException;
+import files.FileExceptions.InexistentFile;
+import files.FileExceptions.InexistentProject;
 import files.FileExceptions.ProjectAlreadyExists;
+import files.FileExceptions.VersionAlreadyExists;
 import files.FileMain;
 import files.FilesExternalService;
 import files.datatypes.FilePath;
@@ -39,9 +42,8 @@ public class SystemController implements ISystemController {
 
 	@Override
 	public void updateFile(final int sessionId, final FilePath path, final File file,
-			final String comment) {
+			final String comment) throws VersionAlreadyExists, InexistentProject {
 		filesSystem.updateFile(sessionId, path, file, comment);
-		
 	}
 
 	@Override
@@ -60,18 +62,18 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public File getVersion(final int sessionId, final Version version) {
-		return filesSystem.getVersion(sessionId, version);
+	public File getVersion(final int sessionId, final Version version, FilePath path) {
+		return filesSystem.getVersion(sessionId, version, path);
 	}
 
 	@Override
-	public void deleteFile(final int sessionId, final FilePath path) {
+	public void deleteFile(final int sessionId, final FilePath path) throws InexistentProject, InexistentFile {
 		filesSystem.deleteFile(sessionId, path);
 		
 	}
 
 	@Override
-	public void deleteProject(final int sessionId, final FilePath project) {
+	public void deleteProject(final int sessionId, final FilePath project) throws InexistentProject, InexistentFile {
 		filesSystem.deleteFile(sessionId, project);
 		
 	}

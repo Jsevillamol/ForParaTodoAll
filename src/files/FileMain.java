@@ -7,7 +7,10 @@ import users.UserInternalService;
 import users.UserMain;
 import users.datatypes.RequestType;
 import users.exceptions.UserException.SessionExpired;
+import files.FileExceptions.InexistentFile;
+import files.FileExceptions.InexistentProject;
 import files.FileExceptions.ProjectAlreadyExists;
+import files.FileExceptions.VersionAlreadyExists;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
@@ -61,52 +64,65 @@ public class FileMain implements FilesExternalService{
 	
 	@Override
 	public void createProject(final int sessionId, final FilePath project, final String description) throws SessionExpired, ProjectAlreadyExists {
-		if(userSystem.validateRequest(sessionId, RequestType.CreateProjectRequest, project)){
+		if(userSystem.validateRequest(sessionId, RequestType.Create, project)){
 			fileDAO.createProject(project, description);
 		}
 		
 	}
 
 	@Override
-	public void updateFile(final int sessionId, final FilePath path, final File file, final String comment) {
-		// TODO Auto-generated method stub
+	public void updateFile(final int sessionId, final FilePath path, final File file, final String comment) throws VersionAlreadyExists, InexistentProject {
+		if(userSystem.validateRequest(sessionId, RequestType.Edit, path)){
+			Version version = new Version(comment, userSystem.identify(sessionId), null);
+			fileDAO.storeFile(file, version, path);
+		}
 		
 	}
 
 	@Override
 	public Project getProject(final int sessionId, final FilePath project) {
-		// TODO Auto-generated method stub
-		return null;
+		if(userSystem.validateRequest(sessionId, RequestType.Edit, project)){
+			return fileDAO.getProject(project);
+		}
+		else return null;
 	}
 
 	@Override
 	public List<Version> getHistory(final int sessionId, final FilePath file) {
-		// TODO Auto-generated method stub
+		if(userSystem.validateRequest(sessionId, RequestType.Edit, file)){
+			return fileDAO.getVersions(file);
+		}
 		return null;
 	}
 
 	@Override
-	public File getVersion(final int sessionId, final Version version) {
-		// TODO Auto-generated method stub
+	public File getVersion(final int sessionId, final Version version, FilePath path) {
+		if(userSystem.validateRequest(sessionId, RequestType.Edit, path)){
+			return fileDAO.getFile(path, version.getId());
+		}
 		return null;
 	}
 
 	@Override
-	public void deleteFile(final int sessionId, final FilePath path) {
-		// TODO Auto-generated method stub
+	public void deleteFile(final int sessionId, final FilePath path) throws InexistentProject, InexistentFile {
+		if(userSystem.validateRequest(sessionId, RequestType.Edit, path)){
+			fileDAO.deleteFile(path);;
+		}
 		
 	}
 
 	@Override
 	public void deleteProject(final int sessionId, final FilePath project) {
-		// TODO Auto-generated method stub
+		if(userSystem.validateRequest(sessionId, RequestType.Delete, project)){
+			fileDAO.deleteProject(project);;
+		}
 		
 	}
 
 	@Override
 	public List<FilePath> findProjects(final int sessionId, final String regex) {
-		// TODO Auto-generated method stub
-		return null;
+		////////
+		return (List<FilePath>) fileDAO.findProjects(regex);
 	}
 
 }

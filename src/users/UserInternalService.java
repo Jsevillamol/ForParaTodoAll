@@ -2,6 +2,7 @@ package users;
 
 import files.datatypes.FilePath;
 import users.datatypes.RequestType;
+import users.datatypes.User;
 
 /*
  * API the subsystem users offers to other subsystems.
@@ -31,4 +32,5 @@ public interface UserInternalService {
 	 * Used when a project is deleted.
 	 */
 	void deleteReferences(FilePath project);
+	
 }

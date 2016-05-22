@@ -15,6 +15,29 @@ public class Version implements Serializable {
 	 */
 	String id;
 	
+	/**
+	 * A user comment of the version.
+	 */
+	String comment;
+	
+	/**
+	 * Who uploaded the version.
+	 * It is found from the sessionId.
+	 */
+	String author;
+	
+	/**
+	 * The date when the version of the file was upload.
+	 */
+	Date date;
+	
+	public Version(String comment, String author, Date date){
+		this.id = author+date;
+		this.author = author;
+		this.date = date;
+		this.comment = comment;
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -47,19 +70,5 @@ public class Version implements Serializable {
 		this.date = date;
 	}
 
-	/**
-	 * A user comment of the version.
-	 */
-	String comment;
-	
-	/**
-	 * Who uploaded the version.
-	 * It is found from the sessionId.
-	 */
-	String author;
-	
-	/**
-	 * The date when the version of the file was upload.
-	 */
-	Date date;
+
 }

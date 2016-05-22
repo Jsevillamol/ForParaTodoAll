@@ -5,6 +5,7 @@ package users.datatypes;
  * for permits verification purposes
  */
 public enum RequestType {
-	CreateProjectRequest,
-	DeleteProjectRequest //TODO: all the other requests
+	Create,
+	Delete,
+	Edit//TODO: all the other requests
 }
