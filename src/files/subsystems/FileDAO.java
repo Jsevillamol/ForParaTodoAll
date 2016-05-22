@@ -106,12 +106,17 @@ public class FileDAO implements IFileDAO {
 	public Project getProject(final FilePath project) throws InexistentProject{
 		if(!database.containsKey(project)) throw new InexistentProject(project);
 		final Repository repo = database.get(project);
-		final Project res = new Project(project.getProjectId(), repo.description, repo.repository.keySet());
+		final Project res = new Project(
+									project.getProjectId(), 
+									repo.description, 
+									repo.repository.keySet()
+								);
 		return res;
 	}
 
 	@Override
-	public void createProject(final FilePath project, final String description) throws ProjectAlreadyExists {
+	public void createProject(final FilePath project, final String description) 
+			throws ProjectAlreadyExists {
 		if(database.containsKey(project))
 			throw new ProjectAlreadyExists();
 		final Repository repo = new Repository(description);
@@ -119,7 +124,8 @@ public class FileDAO implements IFileDAO {
 	}
 
 	@Override
-	public void deleteProject(final FilePath project) throws InexistentProject {
+	public void deleteProject(final FilePath project) 
+			throws InexistentProject {
 		if(!database.containsKey(project))
 			throw new InexistentProject(project);
 		database.remove(project);
@@ -131,7 +137,8 @@ public class FileDAO implements IFileDAO {
 	}
 
 	@Override
-	public List<Version> getVersions(final FilePath file) throws InexistentProject, InexistentFile {
+	public List<Version> getVersions(final FilePath file) 
+			throws InexistentProject, InexistentFile {
 		final FilePath project = new FilePath(file.getProjectId());
 		if(!database.containsKey(project))
 			throw new InexistentProject(project);
@@ -147,7 +154,8 @@ public class FileDAO implements IFileDAO {
 	}
 
 	@Override
-	public File getFile(final FilePath file, final String versionId) throws InexistentProject, InexistentFile, InexistentVersion {
+	public File getFile(final FilePath file, final String versionId) 
+			throws InexistentProject, InexistentFile, InexistentVersion {
 		final FilePath project = new FilePath(file.getProjectId());
 		if(!database.containsKey(project))
 			throw new InexistentProject(project);
@@ -161,7 +169,8 @@ public class FileDAO implements IFileDAO {
 	}
 
 	@Override
-	public void storeFile(final File file, final Version version, final FilePath path) throws VersionAlreadyExists, InexistentProject {
+	public void storeFile(final File file, final Version version, final FilePath path) 
+			throws VersionAlreadyExists, InexistentProject {
 		final FilePath project = new FilePath(path.getProjectId());
 		if(!database.containsKey(project))
 			throw new InexistentProject(project);
@@ -179,7 +188,8 @@ public class FileDAO implements IFileDAO {
 	}
 
 	@Override
-	public void deleteFile(final FilePath file) throws InexistentProject, InexistentFile {
+	public void deleteFile(final FilePath file) 
+			throws InexistentProject, InexistentFile {
 		final FilePath project = new FilePath(file.getProjectId());
 		if(!database.containsKey(project))
 			throw new InexistentProject(project);

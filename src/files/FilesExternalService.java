@@ -27,7 +27,8 @@ public interface FilesExternalService {
 	 * @throws SessionExpired 
 	 * @throws InvalidRequest 
 	 */
-	void createProject(int sessionId, FilePath project, String description) throws SessionExpired, ProjectAlreadyExists, InvalidRequest;
+	void createProject(int sessionId, FilePath project, String description) 
+			throws SessionExpired, ProjectAlreadyExists, InvalidRequest;
 	
 	/**
 	 * Updates the file version.
@@ -36,7 +37,8 @@ public interface FilesExternalService {
 	 * @throws VersionAlreadyExists 
 	 * @throws InvalidRequest 
 	 */
-	void updateFile(int sessionId, FilePath path, File file, String comment) throws VersionAlreadyExists, InexistentProject, InvalidRequest;
+	void updateFile(int sessionId, FilePath path, File file, String comment) 
+			throws VersionAlreadyExists, InexistentProject, InvalidRequest;
 	
 	//Access methods:
 	/**
@@ -44,7 +46,8 @@ public interface FilesExternalService {
 	 * @throws InexistentProject 
 	 * @throws InvalidRequest 
 	 */
-	Project getProject(int sessionId, FilePath project) throws InexistentProject, InvalidRequest;
+	Project getProject(int sessionId, FilePath project) 
+			throws InexistentProject, InvalidRequest;
 	
 	/**
 	 * Returns a list of versions associated to a file,
@@ -53,13 +56,15 @@ public interface FilesExternalService {
 	 * @throws InexistentFile 
 	 * @throws InexistentProject 
 	 */
-	List<Version> getHistory(int sessionId, FilePath file) throws InvalidRequest, InexistentProject, InexistentFile;
+	List<Version> getHistory(int sessionId, FilePath file) 
+			throws InvalidRequest, InexistentProject, InexistentFile;
 	
 	/**
 	 * Returns a list of projects matching the regex.
 	 * @throws InvalidRequest 
 	 */
-	List<FilePath> findProjects(int sessionId, String regex) throws InvalidRequest;
+	List<FilePath> findProjects(int sessionId, String regex) 
+			throws InvalidRequest;
 	
 	/**
 	 * Returns a specific version of a file.
@@ -68,7 +73,8 @@ public interface FilesExternalService {
 	 * @throws InexistentProject 
 	 * @throws InvalidRequest 
 	 */
-	File getVersion(int sessionId, Version version, FilePath path) throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest;
+	File getVersion(int sessionId, Version version, FilePath path) 
+			throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest;
 	
 	//Deletion methods:
 	/**
@@ -77,7 +83,8 @@ public interface FilesExternalService {
 	 * @throws InexistentProject 
 	 * @throws InvalidRequest 
 	 */
-	void deleteFile(int sessionId, FilePath path) throws InexistentProject, InexistentFile, InvalidRequest;
+	void deleteFile(int sessionId, FilePath path) 
+			throws InexistentProject, InexistentFile, InvalidRequest;
 	
 	/**
 	 * Deletes the project represented by the FilePath.
@@ -85,5 +92,6 @@ public interface FilesExternalService {
 	 * @throws InexistentProject 
 	 * @throws InvalidRequest 
 	 */
-	void deleteProject(int sessionId, FilePath project) throws InexistentProject, InexistentFile, InvalidRequest;
+	void deleteProject(int sessionId, FilePath project) 
+			throws InexistentProject, InexistentFile, InvalidRequest;
 }

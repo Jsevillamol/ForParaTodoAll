@@ -65,7 +65,11 @@ public class FileMain implements FilesExternalService{
 	}
 	
 	@Override
-	public void createProject(final int sessionId, final FilePath project, final String description) throws SessionExpired, ProjectAlreadyExists, InvalidRequest {
+	public void createProject(
+			final int sessionId, 
+			final FilePath project, 
+			final String description) 
+					throws SessionExpired, ProjectAlreadyExists, InvalidRequest {
 		if(userSystem.validateRequest(sessionId, RequestType.Create, project)){
 			fileDAO.createProject(project, description);
 		}
@@ -74,7 +78,10 @@ public class FileMain implements FilesExternalService{
 	}
 
 	@Override
-	public void updateFile(final int sessionId, final FilePath path, final File file, final String comment) throws VersionAlreadyExists, InexistentProject, InvalidRequest {
+	public void updateFile(
+			final int sessionId, final FilePath path, 
+			final File file, final String comment) 
+					throws VersionAlreadyExists, InexistentProject, InvalidRequest {
 		if(userSystem.validateRequest(sessionId, RequestType.Edit, path)){
 			final Version version = new Version(comment, userSystem.identify(sessionId), null);
 			fileDAO.storeFile(file, version, path);
@@ -83,7 +90,8 @@ public class FileMain implements FilesExternalService{
 	}
 
 	@Override
-	public Project getProject(final int sessionId, final FilePath project) throws InexistentProject, InvalidRequest {
+	public Project getProject(final int sessionId, final FilePath project) 
+			throws InexistentProject, InvalidRequest {
 		if(userSystem.validateRequest(sessionId, RequestType.Consult, project)){
 			return fileDAO.getProject(project);
 		}
@@ -91,7 +99,8 @@ public class FileMain implements FilesExternalService{
 	}
 
 	@Override
-	public List<Version> getHistory(final int sessionId, final FilePath file) throws InvalidRequest, InexistentProject, InexistentFile {
+	public List<Version> getHistory(final int sessionId, final FilePath file) 
+			throws InvalidRequest, InexistentProject, InexistentFile {
 		if(userSystem.validateRequest(sessionId, RequestType.Consult, file)){
 			return fileDAO.getVersions(file);
 		}
@@ -99,7 +108,8 @@ public class FileMain implements FilesExternalService{
 	}
 
 	@Override
-	public File getVersion(final int sessionId, final Version version, final FilePath path) throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest {
+	public File getVersion(final int sessionId, final Version version, final FilePath path) 
+			throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest {
 		if(userSystem.validateRequest(sessionId, RequestType.Consult, path)){
 			return fileDAO.getFile(path, version.getId());
 		}
@@ -107,16 +117,18 @@ public class FileMain implements FilesExternalService{
 	}
 
 	@Override
-	public void deleteFile(final int sessionId, final FilePath path) throws InexistentProject, InexistentFile, InvalidRequest {
-		if(userSystem.validateRequest(sessionId, RequestType.Edit, path)){
+	public void deleteFile(final int sessionId, final FilePath path) 
+			throws InexistentProject, InexistentFile, InvalidRequest {
+		if(userSystem.validateRequest(sessionId, RequestType.Delete, path)){
 			fileDAO.deleteFile(path);;
 		}
-		else throw new InvalidRequest(RequestType.Edit, path);
+		else throw new InvalidRequest(RequestType.Delete, path);
 		
 	}
 
 	@Override
-	public void deleteProject(final int sessionId, final FilePath project) throws InexistentProject, InvalidRequest {
+	public void deleteProject(final int sessionId, final FilePath project) 
+			throws InexistentProject, InvalidRequest {
 		if(userSystem.validateRequest(sessionId, RequestType.Delete, project)){
 			fileDAO.deleteProject(project);;
 		}
@@ -125,7 +137,8 @@ public class FileMain implements FilesExternalService{
 	}
 
 	@Override
-	public List<FilePath> findProjects(final int sessionId, final String regex) throws InvalidRequest {
+	public List<FilePath> findProjects(final int sessionId, final String regex) 
+			throws InvalidRequest {
 		if(userSystem.validateRequest(sessionId, RequestType.Consult, null)){
 			return (List<FilePath>) fileDAO.findProjects(regex);
 		}
