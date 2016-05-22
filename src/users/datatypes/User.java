@@ -43,7 +43,7 @@ public class User {
 	 * Builds an user. The salt field is automatically generated,
 	 * and the projects are initialized empty.
 	 */
-	public User(String userId, String password, UserLevel userLevel){
+	public User(final String userId, final String password, final UserLevel userLevel){
 		this.userId = userId;
 		this.salt = "42"; //TODO: randomize
 		//password = hashPassword(password, this.salt)
@@ -56,7 +56,7 @@ public class User {
 	 * Returns true if the hashed password + salt 
 	 * corresponds to the stored password.
 	 */
-	public boolean checkPassword(String password){
+	public boolean checkPassword(final String password){
 		//password = hashPassword(password, this.salt)
 		return this.hashedPassword.equals(password);
 	}
@@ -70,18 +70,50 @@ public class User {
 	}
 
 	public List<FilePath> getProjects() {
-		List<FilePath> res = new ArrayList<>(projects);
+		final List<FilePath> res = new ArrayList<>(projects);
 		return res;
 	}
 	
-	public void removeProject(FilePath project){
+	public void removeProject(final FilePath project){
 		projects.remove(project);
 	}
 	
 	/*
 	 * Returns true if user is a collaborator in a certain project.
 	 */
-	public boolean isACollaborator(FilePath project){
+	public boolean isACollaborator(final FilePath project){
 		return projects.contains(project);
+	}
+	
+	/**
+	 * Modifies the user id and password,
+	 * and generates new random salt to increase 
+	 * security.
+	 * @param info
+	 */
+	public void changeInfo(final LoginInfo info){
+		userId = info.userId;
+		this.salt = "42"; //TODO: randomize
+		//password = hashPassword(password, this.salt)
+		hashedPassword = info.password;
+	}
+	
+	/**
+	 * Changes the privileges of the user.
+	 * @param newLevel
+	 */
+	public void changeLevel(final UserLevel newLevel){
+		userLevel=newLevel;
+	}
+	
+	/**
+	 * Adds the project to the relation of project in
+	 * which the user is a collaborator with edit privileges.
+	 * @param project
+	 * @return
+	 */
+	public boolean addUserToProject(final FilePath project){
+		projects.add(project);
+		return true;
 	}
 }
