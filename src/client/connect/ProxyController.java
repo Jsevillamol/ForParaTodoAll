@@ -10,6 +10,8 @@ import server.Endpoint;
 import server.ISystemController;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
+import users.exceptions.UserException.SessionExpired;
+import users.exceptions.UserException.UnknownUserException;
 
 /**
  * Wraps calls to a controller in a SystemResponse and passes them
@@ -35,7 +37,6 @@ public class ProxyController implements ISystemController {
 	@Override
 	public void changeLoginInfo(int sessionId, LoginInfo newInfo) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -48,20 +49,17 @@ public class ProxyController implements ISystemController {
 	public void createUser(int sessionId, LoginInfo newUserInfo,
 			UserLevel newUserLevel) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
 	public void addUserToProject(int sessionId, String userId,
 			FilePath project) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
 	public void changeLevel(int sessionId, String user, UserLevel newLevel) {
 		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -111,6 +109,19 @@ public class ProxyController implements ISystemController {
 	public void deleteProject(int sessionId, FilePath project) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void deleteUser(int sessionId) throws SessionExpired {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUserFromProject(int sessionId, String userId, FilePath project)
+			throws SessionExpired, UnknownUserException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

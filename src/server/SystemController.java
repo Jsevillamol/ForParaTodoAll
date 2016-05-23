@@ -11,6 +11,8 @@ import users.exceptions.UserException.SessionExpired;
 import users.exceptions.UserException.UnknownUserException;
 import files.FileExceptions.InexistentFile;
 import files.FileExceptions.InexistentProject;
+import files.FileExceptions.InexistentVersion;
+import files.FileExceptions.InvalidRequest;
 import files.FileExceptions.ProjectAlreadyExists;
 import files.FileExceptions.VersionAlreadyExists;
 import files.FileMain;
@@ -36,44 +38,45 @@ public class SystemController implements ISystemController {
 	private final FilesExternalService filesSystem = FileMain.getExternalService();
 	
 	@Override
-	public void createProject(final int sessionId, final FilePath project, final String description) throws SessionExpired, ProjectAlreadyExists {
+	public void createProject(final int sessionId, final FilePath project, final String description) throws SessionExpired, ProjectAlreadyExists, InvalidRequest {
 		filesSystem.createProject(sessionId, project, description);
 	}
 
 	@Override
 	public void updateFile(final int sessionId, final FilePath path, final File file,
-			final String comment) throws VersionAlreadyExists, InexistentProject {
+			final String comment) throws VersionAlreadyExists, InexistentProject, InvalidRequest {
 		filesSystem.updateFile(sessionId, path, file, comment);
 	}
 
 	@Override
-	public Project getProject(final int sessionId, final FilePath project) {
-		return filesSystem.getProject(sessionId, project);
+	public Project getProject(final int sessionId, final FilePath project) throws InexistentProject, InvalidRequest {
+		return
+				filesSystem.getProject(sessionId, project);
 	}
 
 	@Override
-	public List<Version> getHistory(final int sessionId, final FilePath file) {
+	public List<Version> getHistory(final int sessionId, final FilePath file) throws InvalidRequest, InexistentProject, InexistentFile {
 		return filesSystem.getHistory(sessionId, file);
 	}
 
 	@Override
-	public List<FilePath> findProjects(final int sessionId, final String regex) {
+	public List<FilePath> findProjects(final int sessionId, final String regex) throws InvalidRequest {
 		return filesSystem.findProjects(sessionId, regex);
 	}
 
 	@Override
-	public File getVersion(final int sessionId, final Version version, FilePath path) {
+	public File getVersion(final int sessionId, final Version version, FilePath path) throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest {
 		return filesSystem.getVersion(sessionId, version, path);
 	}
 
 	@Override
-	public void deleteFile(final int sessionId, final FilePath path) throws InexistentProject, InexistentFile {
+	public void deleteFile(final int sessionId, final FilePath path) throws InexistentProject, InexistentFile, InvalidRequest {
 		filesSystem.deleteFile(sessionId, path);
 		
 	}
 
 	@Override
-	public void deleteProject(final int sessionId, final FilePath project) throws InexistentProject, InexistentFile {
+	public void deleteProject(final int sessionId, final FilePath project) throws InexistentProject, InexistentFile, InvalidRequest {
 		filesSystem.deleteFile(sessionId, project);
 		
 	}
@@ -84,8 +87,8 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo) {
-		return usersSystem.changeLoginInfo(sessionId, newInfo);
+	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo) throws SessionExpired, UnknownUserException {
+		usersSystem.changeLoginInfo(sessionId, newInfo);
 	}
 
 	@Override
@@ -96,18 +99,31 @@ public class SystemController implements ISystemController {
 	@Override
 	public void createUser(final int sessionId, final LoginInfo newUserInfo,
 			final UserLevel newUserLevel) {
-		return usersSystem.createUser(sessionId, newUserInfo, newUserLevel);
+		usersSystem.createUser(sessionId, newUserInfo, newUserLevel);
 	}
 
 	@Override
 	public void addUserToProject(final int sessionId, final String userId,
-			final FilePath project) {
-		return usersSystem.addUserToProject(sessionId, userId, project);
+			final FilePath project) throws UnknownUserException, SessionExpired {
+		usersSystem.addUserToProject(sessionId, userId, project);
 	}
 
 	@Override
-	public void changeLevel(final int sessionId, final String user, final UserLevel newLevel) {
-		return usersSystem.changeLevel(sessionId, user, newLevel);
+	public void changeLevel(final int sessionId, final String user, final UserLevel newLevel) throws UnknownUserException {
+		
+		usersSystem.changeLevel(sessionId, user, newLevel);
+	}
+
+	@Override
+	public void deleteUser(int sessionId) throws SessionExpired {
+		usersSystem.deleteUser(sessionId);
+	}
+
+	@Override
+	public void deleteUserFromProject(int sessionId, String userId, FilePath project)
+			throws SessionExpired, UnknownUserException {
+		usersSystem.deleteUserFromProject(sessionId, userId, project);
+		
 	}
 
 }
