@@ -7,6 +7,7 @@ import users.UserInternalService;
 import users.UserMain;
 import users.datatypes.RequestType;
 import users.exceptions.UserException.SessionExpired;
+import users.exceptions.UserException.UnknownUserException;
 import files.FileExceptions.InexistentFile;
 import files.FileExceptions.InexistentProject;
 import files.FileExceptions.InexistentVersion;
@@ -69,7 +70,7 @@ public class FileMain implements FilesExternalService{
 			final int sessionId, 
 			final FilePath project, 
 			final String description) 
-					throws SessionExpired, ProjectAlreadyExists, InvalidRequest {
+					throws SessionExpired, ProjectAlreadyExists, InvalidRequest, UnknownUserException {
 		if(userSystem.validateRequest(sessionId, RequestType.Create, project)){
 			fileDAO.createProject(project, description);
 		}
@@ -81,7 +82,7 @@ public class FileMain implements FilesExternalService{
 	public void updateFile(
 			final int sessionId, final FilePath path, 
 			final File file, final String comment) 
-					throws VersionAlreadyExists, InexistentProject, InvalidRequest {
+					throws VersionAlreadyExists, InexistentProject, InvalidRequest, UnknownUserException, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.Edit, path)){
 			final Version version = new Version(comment, userSystem.identify(sessionId), null);
 			fileDAO.storeFile(file, version, path);
@@ -91,7 +92,7 @@ public class FileMain implements FilesExternalService{
 
 	@Override
 	public Project getProject(final int sessionId, final FilePath project) 
-			throws InexistentProject, InvalidRequest {
+			throws InexistentProject, InvalidRequest, UnknownUserException, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.Consult, project)){
 			return fileDAO.getProject(project);
 		}
@@ -100,7 +101,7 @@ public class FileMain implements FilesExternalService{
 
 	@Override
 	public List<Version> getHistory(final int sessionId, final FilePath file) 
-			throws InvalidRequest, InexistentProject, InexistentFile {
+			throws InvalidRequest, InexistentProject, InexistentFile, UnknownUserException, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.Consult, file)){
 			return fileDAO.getVersions(file);
 		}
@@ -109,7 +110,7 @@ public class FileMain implements FilesExternalService{
 
 	@Override
 	public File getVersion(final int sessionId, final Version version, final FilePath path) 
-			throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest {
+			throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest, UnknownUserException, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.Consult, path)){
 			return fileDAO.getFile(path, version.getId());
 		}
@@ -118,7 +119,7 @@ public class FileMain implements FilesExternalService{
 
 	@Override
 	public void deleteFile(final int sessionId, final FilePath path) 
-			throws InexistentProject, InexistentFile, InvalidRequest {
+			throws InexistentProject, InexistentFile, InvalidRequest, UnknownUserException, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.Delete, path)){
 			fileDAO.deleteFile(path);;
 		}
@@ -128,7 +129,7 @@ public class FileMain implements FilesExternalService{
 
 	@Override
 	public void deleteProject(final int sessionId, final FilePath project) 
-			throws InexistentProject, InvalidRequest {
+			throws InexistentProject, InvalidRequest, UnknownUserException, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.Delete, project)){
 			fileDAO.deleteProject(project);;
 		}
@@ -138,7 +139,7 @@ public class FileMain implements FilesExternalService{
 
 	@Override
 	public List<FilePath> findProjects(final int sessionId, final String regex) 
-			throws InvalidRequest {
+			throws InvalidRequest, UnknownUserException, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.Consult, null)){
 			return (List<FilePath>) fileDAO.findProjects(regex);
 		}
