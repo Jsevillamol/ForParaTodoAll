@@ -33,8 +33,10 @@ public interface UserExternalService {
 	
 	/**
 	 * Returns a list of project identifiers in which the user is a participant.
+	 * @throws SessionExpired 
+	 * @throws UnknownUserException 
 	 */
-	List<FilePath> getProjects(int sessionId);
+	List<FilePath> getProjects(int sessionId) throws UnknownUserException, SessionExpired;
 	
 	/**
 	 * Changes the info associated to an user.

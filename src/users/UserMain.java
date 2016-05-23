@@ -14,120 +14,119 @@ import users.subsystems.UserDAO;
 import files.datatypes.FilePath;
 
 /**
- * Singleton facade which builds the whole subsystem and offers its functionality
- * to other subsystems and controllers.
+ * Singleton facade which builds the whole subsystem and offers its
+ * functionality to other subsystems and controllers.
  * 
- * Implements two factory methods which return a reference to the singleton
- * as one of the interfaces it implements.
+ * Implements two factory methods which return a reference to the singleton as
+ * one of the interfaces it implements.
  */
 public class UserMain implements UserInternalService, UserExternalService {
-	
+
 	/**
 	 * Manages the creation, association and deletion of sessions.
 	 */
 	SessionManager sessionManager = SessionManager.getReference();
-	
+
 	/**
-	 * Manages the user database. 
-	 * Creates and stores Users.
+	 * Manages the user database. Creates and stores Users.
 	 */
 	IUserDAO userDAO = UserDAO.getReference();
-	
+
 	/**
 	 * Constructor is private, as this is a singleton.
 	 */
-	private UserMain(){}
-	
+	private UserMain() {
+	}
+
 	private static UserMain singleton = null;
-	
+
 	/**
-	 * Singleton factory.
-	 * Returns a reference to the singleton.
-	 * If there is no reference yet, creates it.
+	 * Singleton factory. Returns a reference to the singleton. If there is no
+	 * reference yet, creates it.
 	 */
-	private static synchronized UserMain getReference(){
-		if(singleton == null){
+	private static synchronized UserMain getReference() {
+		if (singleton == null) {
 			singleton = new UserMain();
 			return singleton;
-		} else return singleton;
+		} else
+			return singleton;
 	}
-	
+
 	/**
 	 * Factory method for the singleton as a UserInternalService
 	 */
-	public static UserInternalService getUserInternalService(){
+	public static UserInternalService getUserInternalService() {
 		return getReference();
 	}
-	
+
 	/**
 	 * Factory method for the singleton as a UserInternalService
 	 */
-	public static UserExternalService getUserExternalService(){
+	public static UserExternalService getUserExternalService() {
 		return getReference();
 	}
-	
-	
+
 	/*
 	 * UserExternalService interface methods
 	 */
-	
+
 	@Override
 	public int login(final LoginInfo loginInfo) throws UnknownUserException {
-		User user; int sessionId = -1;
-		
+		User user;
+		int sessionId = -1;
+
 		user = userDAO.getUser(loginInfo.userId);
-		
-		if (user.checkPassword(loginInfo.password)){
+
+		if (user.checkPassword(loginInfo.password)) {
 			sessionId = sessionManager.generateSession(loginInfo.userId);
 		}
-		
+
 		return sessionId;
 	}
 
 	@Override
-	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo) 
+	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo)
 			throws SessionExpired, UnknownUserException {
-		
+
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.changeInfo(newInfo);
 	}
 
 	@Override
-	public List<FilePath> getProjects(final int sessionId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<FilePath> getProjects(final int sessionId) throws UnknownUserException, SessionExpired {
+		return userDAO.getUser(sessionManager.getUser(sessionId)).getProjects();
+
 	}
 
 	@Override
-	public void createUser(final int sessionId, final LoginInfo newUserInfo,
-			final UserLevel newUserLevel) {
-		// TODO Auto-generated method stub
+	public void createUser(final int sessionId, final LoginInfo newUserInfo, final UserLevel newUserLevel) {
+		User newUser = new User(newUserInfo.userId, newUserInfo.password, newUserLevel);
+		userDAO.storeUser(newUser);
 	}
 
 	@Override
-	public void addUserToProject(final int sessionId, final String userId,
-			final FilePath project) throws UnknownUserException, SessionExpired {
-		
+	public void addUserToProject(final int sessionId, final String userId, final FilePath project)
+			throws UnknownUserException, SessionExpired {
+
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
-		
+
 	}
 
 	@Override
-	public void changeLevel(
-			final int sessionId, final String user, final UserLevel newLevel) 
-					throws UnknownUserException {
-		
+	public void changeLevel(final int sessionId, final String user, final UserLevel newLevel)
+			throws UnknownUserException {
+
 		final User userAux = userDAO.getUser(user);
 		userAux.changeLevel(newLevel);
-		
+
 	}
-	
+
 	@Override
-	public void deleteUserFromProject(final int sessionId, final String userId,
-			final FilePath project) throws SessionExpired, UnknownUserException{
+	public void deleteUserFromProject(final int sessionId, final String userId, final FilePath project)
+			throws SessionExpired, UnknownUserException {
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
@@ -136,40 +135,67 @@ public class UserMain implements UserInternalService, UserExternalService {
 	@Override
 	public void deleteUser(final int sessionId) throws SessionExpired {
 		final String stringUser = sessionManager.getUser(sessionId);
-		
+
 		userDAO.deleteUser(stringUser);
-		
+
 	}
-	
+
 	/*
 	 * UserInternalService interface methods
 	 */
-	
+
 	@Override
-	public boolean validateRequest(final int sessionId, final RequestType request,
-			final FilePath filePath) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean validateRequest(final int sessionId, final RequestType request, final FilePath filePath)
+			throws UnknownUserException, SessionExpired {
+		User user = userDAO.getUser(sessionManager.getUser(sessionId));
+		switch (request) {
+		case Create:
+			if (user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.PROJECTLEADER) {
+				return true;
+			} else {
+				return false;
+			}
+		case Edit:
+			if (user.getUserLevel() == UserLevel.ADMIN) {
+				return true;
+			} else if (user.isACollaborator(filePath)) {
+				return true;
+			} else {
+				return false;
+			}
+		case Delete:
+			if (user.getUserLevel() == UserLevel.ADMIN) {
+				return true;
+			} else if (user.getUserLevel() == UserLevel.ADMIN && user.isACollaborator(filePath)) {
+				return true;
+			} else {
+				return false;
+			}
+		default:
+			return false;
+		}
 	}
 
 	@Override
-	public String identify(final int SessionId) {
-		// TODO Auto-generated method stub
-		return null;
+	public String identify(final int sessionId) throws SessionExpired {
+		return sessionManager.getUser(sessionId);
 	}
 
 	@Override
-	public void sudoAddUserToProject(final String UserId, final FilePath project) {
-		// TODO Auto-generated method stub
-		
+	public void sudoAddUserToProject(final String userId, final FilePath project) throws UnknownUserException {
+		final User user = userDAO.getUser(userId);
+		user.addUserToProject(project);
 	}
 
 	@Override
-	public void deleteReferences(final FilePath project) {
-		// TODO Auto-generated method stub
-		
+	public void deleteReferences(final FilePath project) throws UnknownUserException{
+		List<String> userList = userDAO.searchUsers(null);
+		for(String userId: userList){
+			User user = userDAO.getUser(userId);
+			if(user.isACollaborator(project)){
+				user.removeProject(project);
+			}
+		}
 	}
-
-	
 
 }

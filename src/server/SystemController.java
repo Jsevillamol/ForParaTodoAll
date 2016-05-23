@@ -92,7 +92,7 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public List<FilePath> getProjects(final int sessionId) {
+	public List<FilePath> getProjects(final int sessionId) throws UnknownUserException, SessionExpired {
 		return usersSystem.getProjects(sessionId);
 	}
 
