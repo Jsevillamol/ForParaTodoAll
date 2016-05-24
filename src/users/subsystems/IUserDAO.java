@@ -22,14 +22,16 @@ public interface IUserDAO {
 	
 	/**
 	 * Deletes a user from the database.
+	 * @throws UnknownUserException 
 	 */
-	public void deleteUser(String userId);
+	public void deleteUser(String userId) throws UnknownUserException;
 	
 	/**
 	 * True iff there was already a user with name userId in the
 	 * database.
+	 * @return 
 	 */
-	public void contains(String userId);
+	public boolean contains(String userId);
 	
 	/**
 	 * Returns a list of userId matching the regex.

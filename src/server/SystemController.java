@@ -123,7 +123,7 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public void deleteUser(int sessionId) throws SessionExpired {
+	public void deleteUser(int sessionId) throws SessionExpired, UnknownUserException {
 		usersSystem.deleteUser(sessionId);
 	}
 

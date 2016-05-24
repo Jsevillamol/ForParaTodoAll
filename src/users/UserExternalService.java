@@ -28,8 +28,9 @@ public interface UserExternalService {
 	 * 
 	 * @param sessionId
 	 * @throws SessionExpired
+	 * @throws UnknownUserException 
 	 */
-	void deleteUser(int sessionId) throws SessionExpired;
+	void deleteUser(int sessionId) throws SessionExpired, UnknownUserException;
 	
 	/**
 	 * Returns a list of project identifiers in which the user is a participant.

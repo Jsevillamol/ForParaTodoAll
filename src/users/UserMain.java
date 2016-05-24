@@ -133,7 +133,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 	}
 
 	@Override
-	public void deleteUser(final int sessionId) throws SessionExpired {
+	public void deleteUser(final int sessionId) throws SessionExpired, UnknownUserException {
 		final String stringUser = sessionManager.getUser(sessionId);
 
 		userDAO.deleteUser(stringUser);
