@@ -271,6 +271,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 			InvalidRequest, UnknownUserException {
 		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
 		userDAO.deleteUser(userId);
+		sessionManager.closeSession(sessionId);
 	}
 
 }

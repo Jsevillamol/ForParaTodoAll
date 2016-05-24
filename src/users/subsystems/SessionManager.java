@@ -45,12 +45,11 @@ public class SessionManager {
 	
 	/**
 	 * Deletes the sessionId from the map of sessions.
+	 * If the session was not logged, it does nothing.
 	 * @param sessionId
 	 * @throws SessionExpired 
 	 */
-	public void closeSession(final int sessionId) throws SessionExpired{
-		if(!sessions.containsKey(sessionId))
-			throw new SessionExpired();
+	public void closeSession(final int sessionId){
 		sessions.remove(sessionId);
 	}
 	
