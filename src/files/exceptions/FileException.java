@@ -20,6 +20,17 @@ public class FileException extends Exception{
 	public static class ProjectAlreadyExists extends FileException{
 
 		private static final long serialVersionUID = -3768878269292978253L;
+		/**
+		 * Project which already exists.
+		 */
+		FilePath project;
+		public ProjectAlreadyExists(final FilePath file) {
+			super();
+			this.project = file;
+		}
+		public FilePath getFile() {
+			return project;
+		}
 		
 	}
 	
@@ -32,6 +43,25 @@ public class FileException extends Exception{
 	public static class VersionAlreadyExists extends FileException{
 
 		private static final long serialVersionUID = 1L;
+		/**
+		 * Version which already exists.
+		 */
+		String versionId;
+		/**
+		 * File the version refers to.
+		 */
+		FilePath file;
+		public String getVersionId() {
+			return versionId;
+		}
+		public FilePath getFile() {
+			return file;
+		}
+		public VersionAlreadyExists(final FilePath file, final String versionId) {
+			super();
+			this.versionId = versionId;
+			this.file = file;
+		}
 		
 	}
 	
@@ -41,9 +71,20 @@ public class FileException extends Exception{
 	 *
 	 */
 	public static class InexistentProject extends FileException{
+		/**
+		 * Project which does not exist.
+		 */
 		private final FilePath project;
+		
 		public InexistentProject(final FilePath project) {
+			super();
 			this.project = project;
+		}
+		/**
+		 * @return the project
+		 */
+		public FilePath getProject() {
+			return project;
 		}
 		private static final long serialVersionUID = 12L;
 		
@@ -55,10 +96,13 @@ public class FileException extends Exception{
 	 *
 	 */
 	public static class InexistentFile extends FileException{
-
+		/**
+		 * File which does not exist.
+		 */
 		private final FilePath file;
 
 		public InexistentFile(final FilePath file) {
+			super();
 			this.file = file;
 		}
 
@@ -72,11 +116,19 @@ public class FileException extends Exception{
 	 *
 	 */
 	public static class InexistentVersion extends FileException{
-
+		/**
+		 * Inexistent version.
+		 */
 		private final String versionId;
+		/**
+		 * File whose version we will trying to get.
+		 */
+		private final FilePath file;
 
-		public InexistentVersion(final String id) {
-			this.versionId = id;
+		public InexistentVersion(final FilePath file, final String versionId) {
+			super();
+			this.file = file;
+			this.versionId = versionId;
 		}
 
 		private static final long serialVersionUID = 13L;
@@ -92,9 +144,19 @@ public class FileException extends Exception{
 	 *
 	 */
 	public static class InvalidRequest extends FileException{
+		/**
+		 * Action we were trying to perform.
+		 */
 		private final RequestType create;
+		
+		/**
+		 * Over what file/project we where trying to perform the operation.
+		 * If null, it refers to the whole database.
+		 */
 		private final FilePath project;
+		
 		public InvalidRequest(final RequestType create, final FilePath project) {
+			super();
 			this.create = create;
 			this.project = project;
 		}

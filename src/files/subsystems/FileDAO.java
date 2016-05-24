@@ -118,7 +118,7 @@ public class FileDAO implements IFileDAO {
 	public void createProject(final FilePath project, final String description) 
 			throws ProjectAlreadyExists {
 		if(database.containsKey(project))
-			throw new ProjectAlreadyExists();
+			throw new ProjectAlreadyExists(project);
 		final Repository repo = new Repository(description);
 		database.put(project, repo);
 	}
@@ -164,7 +164,7 @@ public class FileDAO implements IFileDAO {
 			throw new InexistentFile(file);
 		final FileHistory fh = repo.repository.get(file);
 		if(!fh.fileHistory.containsKey(versionId))
-			throw new InexistentVersion(versionId);
+			throw new InexistentVersion(file, versionId);
 		return fh.fileHistory.get(versionId).file;
 	}
 
@@ -178,7 +178,7 @@ public class FileDAO implements IFileDAO {
 		if(repo.repository.containsKey(path)){
 			final FileHistory fh = repo.repository.get(path);
 			if(fh.fileHistory.containsKey(version.getId())){
-				throw new VersionAlreadyExists();
+				throw new VersionAlreadyExists(path, version.getId());
 			}
 			fh.fileHistory.put(version.getId(), new FileVersion(file, version));
 		} else { //File did not exists previously
