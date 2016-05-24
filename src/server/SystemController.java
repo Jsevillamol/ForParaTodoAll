@@ -3,10 +3,11 @@ package server;
 import java.io.File;
 import java.util.List;
 
-import users.UserExternalService;
-import users.UserMain;
+import users.UserException.IncorrectPassword;
 import users.UserException.SessionExpired;
 import users.UserException.UnknownUserException;
+import users.UserExternalService;
+import users.UserMain;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
 import files.FileExceptions.InexistentFile;
@@ -69,7 +70,7 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public File getVersion(final int sessionId, final Version version, FilePath path) throws InexistentProject,
+	public File getVersion(final int sessionId, final Version version, final FilePath path) throws InexistentProject,
 			InexistentFile, InexistentVersion, InvalidRequest, UnknownUserException, SessionExpired {
 		return filesSystem.getVersion(sessionId, version, path);
 	}
@@ -89,7 +90,7 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public int login(final LoginInfo loginInfo) throws UnknownUserException {
+	public int login(final LoginInfo loginInfo) throws UnknownUserException, IncorrectPassword {
 		return usersSystem.login(loginInfo);
 	}
 
@@ -123,12 +124,12 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public void deleteUser(int sessionId) throws SessionExpired, UnknownUserException {
+	public void deleteUser(final int sessionId) throws SessionExpired, UnknownUserException {
 		usersSystem.deleteUser(sessionId);
 	}
 
 	@Override
-	public void deleteUserFromProject(int sessionId, String userId, FilePath project)
+	public void deleteUserFromProject(final int sessionId, final String userId, final FilePath project)
 			throws SessionExpired, UnknownUserException {
 		usersSystem.deleteUserFromProject(sessionId, userId, project);
 

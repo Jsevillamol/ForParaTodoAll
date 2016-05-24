@@ -30,6 +30,18 @@ public class UserException extends Exception{
 	}
 	
 	/**
+	 * Exception thrown when a password provided does not coincide
+	 * after hashing with with the stored password.
+	 * @author Jaime
+	 *
+	 */
+	public static class IncorrectPassword extends UserException {
+
+		private static final long serialVersionUID = 155628052654572898L;
+		
+	}
+	
+	/**
 	 * Exception thrown when a userId already exists in the database
 	 * when it is not expected to be.
 	 * @author Jaime

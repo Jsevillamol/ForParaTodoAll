@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import server.Endpoint;
 import server.ISystemController;
+import users.UserException.IncorrectPassword;
 import users.UserException.UnknownUserException;
 import users.datatypes.LoginInfo;
 
@@ -41,6 +42,8 @@ public abstract class SystemRequest implements Serializable {
 				final int sessionId = controller.login(loginInfo);
 				client.sendData(new SystemResponse.LoginResponse(sessionId, null));
 			}catch(final UnknownUserException e){
+				client.sendData(new SystemResponse.LoginResponse(-1, e));
+			} catch (final IncorrectPassword e) {
 				client.sendData(new SystemResponse.LoginResponse(-1, e));
 			}
 			

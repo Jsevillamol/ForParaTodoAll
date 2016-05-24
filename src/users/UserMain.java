@@ -2,6 +2,7 @@ package users;
 
 import java.util.List;
 
+import users.UserException.IncorrectPassword;
 import users.UserException.SessionExpired;
 import users.UserException.UnknownUserException;
 import users.datatypes.LoginInfo;
@@ -71,7 +72,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 	 */
 
 	@Override
-	public int login(final LoginInfo loginInfo) throws UnknownUserException {
+	public int login(final LoginInfo loginInfo) throws UnknownUserException, IncorrectPassword {
 		User user;
 		int sessionId = -1;
 
@@ -79,6 +80,8 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 		if (user.checkPassword(loginInfo.password)) {
 			sessionId = sessionManager.generateSession(loginInfo.userId);
+		} else {
+			throw new IncorrectPassword();
 		}
 
 		return sessionId;
@@ -101,7 +104,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public void createUser(final int sessionId, final LoginInfo newUserInfo, final UserLevel newUserLevel) {
-		User newUser = new User(newUserInfo.userId, newUserInfo.password, newUserLevel);
+		final User newUser = new User(newUserInfo.userId, newUserInfo.password, newUserLevel);
 		userDAO.storeUser(newUser);
 	}
 
@@ -147,7 +150,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 	@Override
 	public boolean validateRequest(final int sessionId, final RequestType request, final FilePath filePath)
 			throws UnknownUserException, SessionExpired {
-		User user = userDAO.getUser(sessionManager.getUser(sessionId));
+		final User user = userDAO.getUser(sessionManager.getUser(sessionId));
 		switch (request) {
 		case Create:
 			if (user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.PROJECTLEADER) {
@@ -189,12 +192,12 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public void deleteReferences(final FilePath project){
-		List<String> userList = userDAO.searchUsers(null);
-		for(String userId: userList){
+		final List<String> userList = userDAO.searchUsers(null);
+		for(final String userId: userList){
 			User user;
 			try {
 				user = userDAO.getUser(userId);
-			} catch (UnknownUserException e) {
+			} catch (final UnknownUserException e) {
 				e.printStackTrace();
 				throw new RuntimeException();
 			}

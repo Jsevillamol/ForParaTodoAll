@@ -2,6 +2,7 @@ package users;
 
 import java.util.List;
 
+import users.UserException.IncorrectPassword;
 import users.UserException.SessionExpired;
 import users.UserException.UnknownUserException;
 import users.datatypes.LoginInfo;
@@ -15,8 +16,9 @@ public interface UserExternalService {
 	/**
 	 * Verifies that the loginInfo is correct, and if successful generated a SessionId
 	 * which will be associated during a period of time to a user.
+	 * @throws IncorrectPassword 
 	 */
-	int login(LoginInfo loginInfo) throws UnknownUserException;
+	int login(LoginInfo loginInfo) throws UnknownUserException, IncorrectPassword;
 	
 	/**
 	 * Adds a new user with the specified level to the database.
