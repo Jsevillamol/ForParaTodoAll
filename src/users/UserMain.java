@@ -115,6 +115,8 @@ public class UserMain implements UserInternalService, UserExternalService {
 			throw new RuntimeException(e);
 		}
 		user.changeInfo(newInfo);
+		sessionManager.changeSession(sessionId, newInfo.userId);
+		userDAO.storeUser(user);
 	}
 
 	@Override
@@ -144,7 +146,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
-
+		userDAO.storeUser(user);
 	}
 
 	@Override
@@ -153,7 +155,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
 		final User userAux = userDAO.getUser(user);
 		userAux.changeLevel(newLevel);
-
+		userDAO.storeUser(userAux);
 	}
 
 	@Override
@@ -165,6 +167,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
+		userDAO.storeUser(user);
 	}
 
 	@Override
@@ -175,6 +178,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 		} catch (final UnknownUserException e) {
 			throw new RuntimeException(e);
 		}
+		sessionManager.closeSession(sessionId);
 
 	}
 
@@ -237,6 +241,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 			throw new InexistentProject(project);
 		final User user = userDAO.getUser(userId);
 		user.addUserToProject(project);
+		userDAO.storeUser(user);
 	}
 
 	@Override
@@ -252,6 +257,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 			if(user.isACollaborator(project)){
 				user.removeProject(project);
 			}
+			userDAO.storeUser(user);
 		}
 	}
 
