@@ -47,7 +47,7 @@ public interface UserExternalService {
 	void deleteUser(int sessionId) throws SessionExpired, UnknownUserException, InvalidRequest;
 	
 	/**
-	 * If requester has the privileges, deletes the user indicated by userId.
+	 * If requester given by sessionId has the privileges, deletes the user indicated by userId.
 	 * @param sessionId
 	 * @param userId
 	 */

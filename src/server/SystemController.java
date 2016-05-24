@@ -137,15 +137,13 @@ public class SystemController implements ISystemController {
 
 	@Override
 	public void logoff(final int sessionId) throws SessionExpired {
-		// TODO Auto-generated method stub
-		
+		usersSystem.logoff(sessionId);	
 	}
 
 	@Override
 	public void deleteUser(final int sessionId, final String userId) throws SessionExpired,
 			InvalidRequest, UnknownUserException {
-		// TODO Auto-generated method stub
-		
+		usersSystem.deleteUser(sessionId, userId);
 	}
 
 }

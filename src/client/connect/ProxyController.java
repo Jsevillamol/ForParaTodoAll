@@ -6,6 +6,7 @@ import java.util.List;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
+import files.exceptions.FileException.InvalidRequest;
 import server.Endpoint;
 import server.ISystemController;
 import users.datatypes.LoginInfo;
@@ -120,6 +121,18 @@ public class ProxyController implements ISystemController {
 	@Override
 	public void deleteUserFromProject(int sessionId, String userId, FilePath project)
 			throws SessionExpired, UnknownUserException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void logoff(int sessionId) throws SessionExpired {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUser(int sessionId, String userId) throws SessionExpired, InvalidRequest, UnknownUserException {
 		// TODO Auto-generated method stub
 		
 	}

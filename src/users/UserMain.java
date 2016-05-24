@@ -257,15 +257,14 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public void logoff(final int sessionId) throws SessionExpired {
-		// TODO Auto-generated method stub
-		
+		sessionManager.closeSession(sessionId);
 	}
 
 	@Override
 	public void deleteUser(final int sessionId, final String userId) throws SessionExpired,
 			InvalidRequest, UnknownUserException {
-		// TODO Auto-generated method stub
-		
+		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
+		userDAO.deleteUser(userId);
 	}
 
 }
