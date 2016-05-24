@@ -112,7 +112,7 @@ public class SystemController implements ISystemController {
 
 	@Override
 	public void addUserToProject(final int sessionId, final String userId, final FilePath project)
-			throws UnknownUserException, SessionExpired {
+			throws UnknownUserException, SessionExpired, InexistentProject {
 		usersSystem.addUserToProject(sessionId, userId, project);
 	}
 
@@ -130,7 +130,7 @@ public class SystemController implements ISystemController {
 
 	@Override
 	public void deleteUserFromProject(final int sessionId, final String userId, final FilePath project)
-			throws SessionExpired, UnknownUserException {
+			throws SessionExpired, UnknownUserException, InexistentProject {
 		usersSystem.deleteUserFromProject(sessionId, userId, project);
 
 	}
