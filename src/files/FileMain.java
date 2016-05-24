@@ -78,7 +78,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 			final int sessionId, 
 			final FilePath project, 
 			final String description) 
-					throws SessionExpired, ProjectAlreadyExists, InvalidRequest, UnknownUserException {
+					throws SessionExpired, ProjectAlreadyExists, InvalidRequest {
 		if(userSystem.validateRequest(sessionId, RequestType.CREATEFILE, project)){
 			fileDAO.createProject(project, description);
 		}
@@ -90,7 +90,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 	public void updateFile(
 			final int sessionId, final FilePath path, 
 			final File file, final String comment) 
-					throws VersionAlreadyExists, InexistentProject, InvalidRequest, UnknownUserException, SessionExpired {
+					throws VersionAlreadyExists, InexistentProject, InvalidRequest, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.EDITPROJECT, path)){
 			final Version version = new Version(comment, userSystem.identify(sessionId), null);
 			fileDAO.storeFile(file, version, path);
@@ -100,7 +100,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 
 	@Override
 	public Project getProject(final int sessionId, final FilePath project) 
-			throws InexistentProject, InvalidRequest, UnknownUserException, SessionExpired {
+			throws InexistentProject, InvalidRequest, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.CONSULTPROJECT, project)){
 			return fileDAO.getProject(project);
 		}
@@ -109,7 +109,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 
 	@Override
 	public List<Version> getHistory(final int sessionId, final FilePath file) 
-			throws InvalidRequest, InexistentProject, InexistentFile, UnknownUserException, SessionExpired {
+			throws InvalidRequest, InexistentProject, InexistentFile, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.CONSULTPROJECT, file)){
 			return fileDAO.getVersions(file);
 		}
@@ -118,7 +118,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 
 	@Override
 	public File getVersion(final int sessionId, final Version version, final FilePath path) 
-			throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest, UnknownUserException, SessionExpired {
+			throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.CONSULTPROJECT, path)){
 			return fileDAO.getFile(path, version.getId());
 		}
@@ -127,7 +127,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 
 	@Override
 	public void deleteFile(final int sessionId, final FilePath path) 
-			throws InexistentProject, InexistentFile, InvalidRequest, UnknownUserException, SessionExpired {
+			throws InexistentProject, InexistentFile, InvalidRequest, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.DELETEFILE, path)){
 			fileDAO.deleteFile(path);;
 		}
@@ -137,7 +137,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 
 	@Override
 	public void deleteProject(final int sessionId, final FilePath project) 
-			throws InexistentProject, InvalidRequest, UnknownUserException, SessionExpired {
+			throws InexistentProject, InvalidRequest, SessionExpired {
 		if(userSystem.validateRequest(sessionId, RequestType.DELETEFILE, project)){
 			fileDAO.deleteProject(project);;
 		}

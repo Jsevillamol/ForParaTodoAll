@@ -17,7 +17,7 @@ public interface UserInternalService {
 	 * @throws SessionExpired 
 	 * @throws UnknownUserException 
 	 */
-	boolean validateRequest(int sessionId, RequestType request, FilePath filePath) throws UnknownUserException, SessionExpired;
+	boolean validateRequest(int sessionId, RequestType request, FilePath filePath) throws SessionExpired;
 	
 	/**
 	 * Returns the userId associated with sessionId.
@@ -32,13 +32,13 @@ public interface UserInternalService {
 	 * @throws UnknownUserException 
 	 * @throws InexistentProject 
 	 */
-	void sudoAddUserToProject(String userId, FilePath project) throws UnknownUserException, InexistentProject;
+	void sudoAddUserToProject(String userId, FilePath project) throws InexistentProject, UnknownUserException;
 	
 	/**
 	 * Deletes all references to project.
 	 * Used when a project is deleted.
 	 * @throws UnknownUserException 
 	 */
-	void deleteReferences(FilePath project) throws UnknownUserException;
+	void deleteReferences(FilePath project);
 	
 }

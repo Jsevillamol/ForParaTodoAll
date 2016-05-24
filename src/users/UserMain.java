@@ -9,6 +9,7 @@ import users.datatypes.UserLevel;
 import users.exceptions.UserException.IncorrectPassword;
 import users.exceptions.UserException.SessionExpired;
 import users.exceptions.UserException.UnknownUserException;
+import users.exceptions.UserException.UserAlreadyExists;
 import users.subsystems.IUserDAO;
 import users.subsystems.SessionManager;
 import users.subsystems.UserDAO;
@@ -89,7 +90,8 @@ public class UserMain implements UserInternalService, UserExternalService {
 	 */
 
 	@Override
-	public int login(final LoginInfo loginInfo) throws UnknownUserException, IncorrectPassword {
+	public int login(final LoginInfo loginInfo) 
+			throws UnknownUserException, IncorrectPassword {
 		User user;
 		int sessionId = -1;
 
@@ -103,7 +105,12 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 		return sessionId;
 	}
-
+	
+	@Override
+	public void logoff(final int sessionId) throws SessionExpired {
+		sessionManager.closeSession(sessionId);
+	}
+	
 	@Override
 	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo)
 			throws SessionExpired {
@@ -131,8 +138,11 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public void createUser(final int sessionId, final LoginInfo newUserInfo, final UserLevel newUserLevel) 
-			throws UnknownUserException, SessionExpired, InvalidRequest {
-		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
+			throws SessionExpired, InvalidRequest, UserAlreadyExists {
+		if(!validateRequest(sessionId, RequestType.EDITUSER, null))
+			throw new InvalidRequest(RequestType.EDITUSER, null);
+		if(userDAO.contains(newUserInfo.userId))
+			throw new UserAlreadyExists();
 		final User newUser = new User(newUserInfo.userId, newUserInfo.password, newUserLevel);
 		userDAO.storeUser(newUser);
 	}
@@ -142,7 +152,8 @@ public class UserMain implements UserInternalService, UserExternalService {
 			throws UnknownUserException, SessionExpired, InexistentProject, InvalidRequest {
 		if(!fileSystem.existsProject(project))
 			throw new InexistentProject(project);
-		if(!validateRequest(sessionId, RequestType.MANAGEUSER, project))throw new InvalidRequest(RequestType.MANAGEUSER, project);
+		if(!validateRequest(sessionId, RequestType.MANAGEUSER, project))
+			throw new InvalidRequest(RequestType.MANAGEUSER, project);
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
@@ -152,7 +163,8 @@ public class UserMain implements UserInternalService, UserExternalService {
 	@Override
 	public void changeLevel(final int sessionId, final String user, final UserLevel newLevel)
 			throws UnknownUserException, SessionExpired, InvalidRequest {
-		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
+		if(!validateRequest(sessionId, RequestType.EDITUSER, null))
+			throw new InvalidRequest(RequestType.EDITUSER, null);
 		final User userAux = userDAO.getUser(user);
 		userAux.changeLevel(newLevel);
 		userDAO.storeUser(userAux);
@@ -163,7 +175,8 @@ public class UserMain implements UserInternalService, UserExternalService {
 			throws SessionExpired, UnknownUserException, InexistentProject, InvalidRequest {
 		if(!fileSystem.existsProject(project))
 			throw new InexistentProject(project);
-		if(!validateRequest(sessionId, RequestType.MANAGEUSER, project))throw new InvalidRequest(RequestType.MANAGEUSER, project);
+		if(!validateRequest(sessionId, RequestType.MANAGEUSER, project))
+			throw new InvalidRequest(RequestType.MANAGEUSER, project);
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
@@ -181,6 +194,15 @@ public class UserMain implements UserInternalService, UserExternalService {
 		sessionManager.closeSession(sessionId);
 
 	}
+	
+	@Override
+	public void deleteUser(final int sessionId, final String userId) 
+			throws SessionExpired, InvalidRequest, UnknownUserException {
+		if(!validateRequest(sessionId, RequestType.EDITUSER, null))
+			throw new InvalidRequest(RequestType.EDITUSER, null);
+		userDAO.deleteUser(userId);
+		sessionManager.closeSession(sessionId);
+	}
 
 	/*
 	 * UserInternalService interface methods
@@ -188,8 +210,13 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public boolean validateRequest(final int sessionId, final RequestType request, final FilePath filePath)
-			throws UnknownUserException, SessionExpired {
-		final User user = userDAO.getUser(sessionManager.getUser(sessionId));
+			throws SessionExpired {
+		User user;
+		try {
+			user = userDAO.getUser(sessionManager.getUser(sessionId));
+		} catch (final UnknownUserException e) {
+			throw new RuntimeException(e);
+		}
 		switch (request) {
 		case CREATEFILE:
 			if (user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.PROJECTLEADER) {
@@ -220,7 +247,9 @@ public class UserMain implements UserInternalService, UserExternalService {
 				return false;
 			}
 		case MANAGEUSER:
-			if (user.getUserLevel() == UserLevel.ADMIN || (user.getUserLevel() == UserLevel.PROJECTLEADER && user.isACollaborator(filePath)) ) {
+			if (user.getUserLevel() == UserLevel.ADMIN || 
+				(user.getUserLevel() == UserLevel.PROJECTLEADER && 
+				user.isACollaborator(filePath)) ) {
 				return true;
 			} else {
 				return false;
@@ -236,7 +265,8 @@ public class UserMain implements UserInternalService, UserExternalService {
 	}
 
 	@Override
-	public void sudoAddUserToProject(final String userId, final FilePath project) throws UnknownUserException, InexistentProject {
+	public void sudoAddUserToProject(final String userId, final FilePath project) 
+			throws InexistentProject, UnknownUserException {
 		if(!fileSystem.existsProject(project))
 			throw new InexistentProject(project);
 		final User user = userDAO.getUser(userId);
@@ -261,17 +291,6 @@ public class UserMain implements UserInternalService, UserExternalService {
 		}
 	}
 
-	@Override
-	public void logoff(final int sessionId) throws SessionExpired {
-		sessionManager.closeSession(sessionId);
-	}
-
-	@Override
-	public void deleteUser(final int sessionId, final String userId) throws SessionExpired,
-			InvalidRequest, UnknownUserException {
-		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
-		userDAO.deleteUser(userId);
-		sessionManager.closeSession(sessionId);
-	}
+	
 
 }

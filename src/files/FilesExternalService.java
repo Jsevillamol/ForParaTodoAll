@@ -3,6 +3,8 @@ package files;
 import java.io.File;
 import java.util.List;
 
+import users.exceptions.UserException.SessionExpired;
+import users.exceptions.UserException.UnknownUserException;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
@@ -12,8 +14,6 @@ import files.exceptions.FileException.InexistentVersion;
 import files.exceptions.FileException.InvalidRequest;
 import files.exceptions.FileException.ProjectAlreadyExists;
 import files.exceptions.FileException.VersionAlreadyExists;
-import users.exceptions.UserException.SessionExpired;
-import users.exceptions.UserException.UnknownUserException;
 
 /**
  * Services offered by the Files system to external systems.
@@ -30,7 +30,7 @@ public interface FilesExternalService {
 	 * @throws UnknownUserException 
 	 */
 	void createProject(int sessionId, FilePath project, String description) 
-			throws SessionExpired, ProjectAlreadyExists, InvalidRequest, UnknownUserException;
+			throws SessionExpired, ProjectAlreadyExists, InvalidRequest;
 	
 	/**
 	 * Updates the file version.
@@ -42,7 +42,7 @@ public interface FilesExternalService {
 	 * @throws UnknownUserException 
 	 */
 	void updateFile(int sessionId, FilePath path, File file, String comment) 
-			throws VersionAlreadyExists, InexistentProject, InvalidRequest, UnknownUserException, SessionExpired;
+			throws VersionAlreadyExists, InexistentProject, InvalidRequest, SessionExpired;
 	
 	//Access methods:
 	/**
@@ -53,7 +53,7 @@ public interface FilesExternalService {
 	 * @throws UnknownUserException 
 	 */
 	Project getProject(int sessionId, FilePath project) 
-			throws InexistentProject, InvalidRequest, UnknownUserException, SessionExpired;
+			throws InexistentProject, InvalidRequest, SessionExpired;
 	
 	/**
 	 * Returns a list of versions associated to a file,
@@ -65,7 +65,7 @@ public interface FilesExternalService {
 	 * @throws UnknownUserException 
 	 */
 	List<Version> getHistory(int sessionId, FilePath file) 
-			throws InvalidRequest, InexistentProject, InexistentFile, UnknownUserException, SessionExpired;
+			throws InvalidRequest, InexistentProject, InexistentFile, SessionExpired;
 	
 	/**
 	 * Returns a list of projects matching the regex.
@@ -86,7 +86,7 @@ public interface FilesExternalService {
 	 * @throws UnknownUserException 
 	 */
 	File getVersion(int sessionId, Version version, FilePath path) 
-			throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest, UnknownUserException, SessionExpired;
+			throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest, SessionExpired;
 	
 	//Deletion methods:
 	/**
@@ -98,7 +98,7 @@ public interface FilesExternalService {
 	 * @throws UnknownUserException 
 	 */
 	void deleteFile(int sessionId, FilePath path) 
-			throws InexistentProject, InexistentFile, InvalidRequest, UnknownUserException, SessionExpired;
+			throws InexistentProject, InexistentFile, InvalidRequest, SessionExpired;
 	
 	/**
 	 * Deletes the project represented by the FilePath.
@@ -109,5 +109,5 @@ public interface FilesExternalService {
 	 * @throws UnknownUserException 
 	 */
 	void deleteProject(int sessionId, FilePath project) 
-			throws InexistentProject, InexistentFile, InvalidRequest, UnknownUserException, SessionExpired;
+			throws InexistentProject, InexistentFile, InvalidRequest, SessionExpired;
 }
