@@ -67,4 +67,12 @@ public interface IFileDAO {
 	 */
 	void deleteFile(FilePath file) 
 			throws InexistentProject, InexistentFile;
+	
+	/**
+	 * Returns true iff there exists the project represented by the FilePath
+	 * in the database,
+	 * @param project
+	 * @return
+	 */
+	boolean existsProject(FilePath project);
 }

@@ -199,4 +199,9 @@ public class FileDAO implements IFileDAO {
 		repo.repository.remove(file);
 	}
 
+	@Override
+	public boolean existsProject(final FilePath project) {
+		return database.containsKey(project);
+	}
+
 }

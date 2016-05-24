@@ -3,10 +3,10 @@ package files;
 import java.io.File;
 import java.util.List;
 
-import users.UserInternalService;
-import users.UserMain;
 import users.UserException.SessionExpired;
 import users.UserException.UnknownUserException;
+import users.UserInternalService;
+import users.UserMain;
 import users.datatypes.RequestType;
 import files.FileExceptions.InexistentFile;
 import files.FileExceptions.InexistentProject;
@@ -27,7 +27,7 @@ import files.subsystems.IFileDAO;
  * Depends on the Users module.
  * Handles all calls to the File subsystem and interactions with other modules.
  */
-public class FileMain implements FilesExternalService{
+public class FileMain implements FilesExternalService, FilesInternaService{
 	
 	/**
 	 * Data Access Object which allows interactions with the 
@@ -62,6 +62,14 @@ public class FileMain implements FilesExternalService{
 	 * Method for the singleton as a FileExternalService
 	 */
 	public static FilesExternalService getExternalService(){
+		return getReference();
+	}
+	
+	/**
+	 * Abstract factory for Internal Services singleton.
+	 * @return
+	 */
+	public static FilesInternaService getInternalService(){
 		return getReference();
 	}
 	
@@ -144,6 +152,16 @@ public class FileMain implements FilesExternalService{
 			return (List<FilePath>) fileDAO.findProjects(regex);
 		}
 		else throw new InvalidRequest(RequestType.Consult, null);
+	}
+	
+	/*
+	 * FilesInternalService methods.
+	 */
+	
+	@Override
+	public boolean existsProject(final FilePath project) {
+		// TODO Auto-generated method stub
+		return fileDAO.existsProject(project);
 	}
 
 }
