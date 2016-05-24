@@ -96,12 +96,12 @@ public class SystemController implements ISystemController {
 
 	@Override
 	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo)
-			throws SessionExpired, UnknownUserException {
+			throws SessionExpired {
 		usersSystem.changeLoginInfo(sessionId, newInfo);
 	}
 
 	@Override
-	public List<FilePath> getProjects(final int sessionId) throws UnknownUserException, SessionExpired {
+	public List<FilePath> getProjects(final int sessionId) throws SessionExpired {
 		return usersSystem.getProjects(sessionId);
 	}
 
@@ -133,6 +133,19 @@ public class SystemController implements ISystemController {
 			throws SessionExpired, UnknownUserException, InexistentProject, InvalidRequest {
 		usersSystem.deleteUserFromProject(sessionId, userId, project);
 
+	}
+
+	@Override
+	public void logoff(final int sessionId) throws SessionExpired {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUser(final int sessionId, final String userId) throws SessionExpired,
+			InvalidRequest, UnknownUserException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

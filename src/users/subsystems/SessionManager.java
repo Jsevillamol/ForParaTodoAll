@@ -44,6 +44,17 @@ public class SessionManager {
 	}
 	
 	/**
+	 * Deletes the sessionId from the map of sessions.
+	 * @param sessionId
+	 * @throws SessionExpired 
+	 */
+	public void closeSession(final int sessionId) throws SessionExpired{
+		if(!sessions.containsKey(sessionId))
+			throw new SessionExpired();
+		sessions.remove(sessionId);
+	}
+	
+	/**
 	 * Returns the user associated with sessionId.
 	 * If no session has that ID, raises an exception.
 	 */

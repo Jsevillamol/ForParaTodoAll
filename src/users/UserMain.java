@@ -2,11 +2,6 @@ package users;
 
 import java.util.List;
 
-import files.FileMain;
-import files.FilesInternaService;
-import files.datatypes.FilePath;
-import files.exceptions.FileException.InexistentProject;
-import files.exceptions.FileException.InvalidRequest;
 import users.datatypes.LoginInfo;
 import users.datatypes.RequestType;
 import users.datatypes.User;
@@ -17,6 +12,11 @@ import users.exceptions.UserException.UnknownUserException;
 import users.subsystems.IUserDAO;
 import users.subsystems.SessionManager;
 import users.subsystems.UserDAO;
+import files.FileMain;
+import files.FilesInternaService;
+import files.datatypes.FilePath;
+import files.exceptions.FileException.InexistentProject;
+import files.exceptions.FileException.InvalidRequest;
 
 
 /**
@@ -106,15 +106,25 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo)
-			throws SessionExpired, UnknownUserException {
+			throws SessionExpired {
 		final String stringUser = sessionManager.getUser(sessionId);
-		final User user = userDAO.getUser(stringUser);
+		User user;
+		try {
+			user = userDAO.getUser(stringUser);
+		} catch (final UnknownUserException e) {
+			throw new RuntimeException(e);
+		}
 		user.changeInfo(newInfo);
 	}
 
 	@Override
-	public List<FilePath> getProjects(final int sessionId) throws UnknownUserException, SessionExpired {
-		return userDAO.getUser(sessionManager.getUser(sessionId)).getProjects();
+	public List<FilePath> getProjects(final int sessionId) throws SessionExpired {
+		try {
+			return userDAO.getUser(sessionManager.getUser(sessionId)).getProjects();
+		} catch (final UnknownUserException e) {
+			//If the user is unknown our internal state is inconsistent.
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -158,10 +168,13 @@ public class UserMain implements UserInternalService, UserExternalService {
 	}
 
 	@Override
-	public void deleteUser(final int sessionId) throws SessionExpired, UnknownUserException, InvalidRequest {
-		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
+	public void deleteUser(final int sessionId) throws SessionExpired {
 		final String stringUser = sessionManager.getUser(sessionId);
-		userDAO.deleteUser(stringUser);
+		try {
+			userDAO.deleteUser(stringUser);
+		} catch (final UnknownUserException e) {
+			throw new RuntimeException(e);
+		}
 
 	}
 
@@ -240,6 +253,19 @@ public class UserMain implements UserInternalService, UserExternalService {
 				user.removeProject(project);
 			}
 		}
+	}
+
+	@Override
+	public void logoff(final int sessionId) throws SessionExpired {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteUser(final int sessionId, final String userId) throws SessionExpired,
+			InvalidRequest, UnknownUserException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

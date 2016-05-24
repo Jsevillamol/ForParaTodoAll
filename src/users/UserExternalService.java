@@ -2,14 +2,14 @@ package users;
 
 import java.util.List;
 
-import files.datatypes.FilePath;
-import files.exceptions.FileException.InexistentProject;
-import files.exceptions.FileException.InvalidRequest;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
 import users.exceptions.UserException.IncorrectPassword;
 import users.exceptions.UserException.SessionExpired;
 import users.exceptions.UserException.UnknownUserException;
+import files.datatypes.FilePath;
+import files.exceptions.FileException.InexistentProject;
+import files.exceptions.FileException.InvalidRequest;
 
 /**
  * Functionality the subsystem user offers to external controllers.
@@ -21,6 +21,12 @@ public interface UserExternalService {
 	 * @throws IncorrectPassword 
 	 */
 	int login(LoginInfo loginInfo) throws UnknownUserException, IncorrectPassword;
+	
+	/**
+	 * Closes the session of a logged user.
+	 * @param sessionId
+	 */
+	void logoff(int sessionId) throws SessionExpired;
 	
 	/**
 	 * Adds a new user with the specified level to the database.
@@ -41,23 +47,30 @@ public interface UserExternalService {
 	void deleteUser(int sessionId) throws SessionExpired, UnknownUserException, InvalidRequest;
 	
 	/**
+	 * If requester has the privileges, deletes the user indicated by userId.
+	 * @param sessionId
+	 * @param userId
+	 */
+	void deleteUser(int sessionId, String userId) throws SessionExpired, InvalidRequest, UnknownUserException;
+	
+	/**
 	 * Returns a list of project identifiers in which the user is a participant.
 	 * @throws SessionExpired 
 	 * @throws UnknownUserException 
 	 */
-	List<FilePath> getProjects(int sessionId) throws UnknownUserException, SessionExpired;
+	List<FilePath> getProjects(int sessionId) throws SessionExpired;
 	
 	/**
 	 * Changes the info associated to an user.
 	 */
-	void changeLoginInfo(int sessionId, LoginInfo newInfo) throws SessionExpired, UnknownUserException;
+	void changeLoginInfo(int sessionId, LoginInfo newInfo) throws SessionExpired;
 	
 	/**
 	 * Changes the privileges of a user.
 	 * @throws InvalidRequest 
 	 * @throws SessionExpired 
 	 */
-	void changeLevel(int sessionId, String user, UserLevel newLevel) throws UnknownUserException, SessionExpired, InvalidRequest;
+	void changeLevel(int sessionId, String userId, UserLevel newLevel) throws UnknownUserException, SessionExpired, InvalidRequest;
 	
 	/**
 	 * Add a new collaborator to a project.
