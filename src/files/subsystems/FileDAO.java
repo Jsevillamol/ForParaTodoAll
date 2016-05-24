@@ -48,7 +48,7 @@ public class FileDAO implements IFileDAO {
 	 */
 	private static class FileHistory{
 		public FileHistory(final FileVersion v) {
-			fileHistory = new TreeMap<>();
+			fileHistory = new TreeMap<String, FileVersion>();
 			fileHistory.put(v.version.getId(), v);
 		}
 
@@ -62,7 +62,7 @@ public class FileDAO implements IFileDAO {
 	 */
 	private static class Repository {
 		public Repository(final String description) {
-			repository = new TreeMap<>();
+			repository = new TreeMap<FilePath, FileHistory>();
 			this.description = description;
 		}
 
@@ -146,7 +146,7 @@ public class FileDAO implements IFileDAO {
 		if(!repo.repository.containsKey(file))
 			throw new InexistentFile(file);
 		final FileHistory fh = repo.repository.get(file);
-		final List<Version> res = new ArrayList<>();
+		final List<Version> res = new ArrayList<Version>();
 		for(final FileVersion v : fh.fileHistory.values()){
 			res.add(v.version);
 		}

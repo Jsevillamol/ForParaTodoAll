@@ -2,8 +2,8 @@ package users.subsystems;
 
 import java.util.List;
 
+import users.UserException.UnknownUserException;
 import users.datatypes.User;
-import users.exceptions.UserException.UnknownUserException;
 
 /**
  * Controls access to the user database.
@@ -38,6 +38,4 @@ public interface IUserDAO {
 	 */
 	public List<String> searchUsers(String regex);
 	
-	
-
 }

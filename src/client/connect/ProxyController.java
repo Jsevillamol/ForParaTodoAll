@@ -8,10 +8,10 @@ import files.datatypes.Project;
 import files.datatypes.Version;
 import server.Endpoint;
 import server.ISystemController;
+import users.UserException.SessionExpired;
+import users.UserException.UnknownUserException;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
-import users.exceptions.UserException.SessionExpired;
-import users.exceptions.UserException.UnknownUserException;
 
 /**
  * Wraps calls to a controller in a SystemResponse and passes them

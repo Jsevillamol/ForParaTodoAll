@@ -1,8 +1,8 @@
 package users;
 
+import users.UserException.SessionExpired;
+import users.UserException.UnknownUserException;
 import users.datatypes.RequestType;
-import users.exceptions.UserException.SessionExpired;
-import users.exceptions.UserException.UnknownUserException;
 import files.datatypes.FilePath;
 
 /**

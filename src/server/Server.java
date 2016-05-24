@@ -92,7 +92,10 @@ public class Server {
 							handleData(ois.readObject());
 						} catch(SocketTimeoutException e){
 							continue;
-						} catch (ClassNotFoundException | IOException e) {
+						} catch (ClassNotFoundException e) {
+							stopped = true;
+							e.printStackTrace();
+						}catch (IOException e) {
 							stopped = true;
 							e.printStackTrace();
 						}

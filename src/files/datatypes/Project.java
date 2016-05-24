@@ -17,7 +17,7 @@ public class Project implements Serializable {
 	public Project(final String id, final String description, final Collection<FilePath> files) {
 		this.id = id;
 		this.description = description;
-		this.files = new ArrayList<>(files);
+		this.files = new ArrayList<FilePath>(files);
 	}
 
 	private static final long serialVersionUID = 4824134341813495012L;

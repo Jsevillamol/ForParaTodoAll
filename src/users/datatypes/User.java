@@ -7,39 +7,39 @@ import java.util.TreeSet;
 
 import files.datatypes.FilePath;
 
-/*
+/**
  * Object which represents an user.
  * They are built by IUserDAOs and have simple functionality allowing modification
  * and checks.
  */
 public class User {
-	/*
+	/**
 	 * Identifier.
 	 */
 	String userId;
 	
-	/*
+	/**
 	 * Hashed password with salt for login checks.
 	 */
 	String hashedPassword;
 	
-	/*
+	/**
 	 * To obfuscate the hashing. Is unique of each user and generated
 	 * randomly at user creation.
 	 */
 	String salt;
 	
-	/*
+	/**
 	 * Privileges of user.
 	 */
 	UserLevel userLevel;
 	
-	/*
+	/**
 	 * List of projects in which the user collaborates.
 	 */
 	Set<FilePath> projects;
 	
-	/*
+	/**
 	 * Builds an user. The salt field is automatically generated,
 	 * and the projects are initialized empty.
 	 */
@@ -52,7 +52,7 @@ public class User {
 		this.projects = new TreeSet<FilePath>();
 	}
 	
-	/*
+	/**
 	 * Returns true if the hashed password + salt 
 	 * corresponds to the stored password.
 	 */
@@ -60,7 +60,7 @@ public class User {
 		//password = hashPassword(password, this.salt)
 		return this.hashedPassword.equals(password);
 	}
-
+	//Getters and setters
 	public String getUserId() {
 		return userId;
 	}
@@ -70,15 +70,18 @@ public class User {
 	}
 
 	public List<FilePath> getProjects() {
-		final List<FilePath> res = new ArrayList<>(projects);
+		final List<FilePath> res = new ArrayList<FilePath>(projects);
 		return res;
 	}
-	
+	/**
+	 * Removes a project from a user
+	 * @param project
+	 */
 	public void removeProject(final FilePath project){
 		projects.remove(project);
 	}
 	
-	/*
+	/**
 	 * Returns true if user is a collaborator in a certain project.
 	 */
 	public boolean isACollaborator(final FilePath project){

@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 import server.Endpoint;
 import server.ISystemController;
+import users.UserException.UnknownUserException;
 import users.datatypes.LoginInfo;
-import users.exceptions.UserException.UnknownUserException;
 
 /**
  * Request from a client to the system.

@@ -5,5 +5,7 @@ package users.datatypes;
  * Each level has different kind of privileges.
  */
 public enum UserLevel {
-	ADMIN, PROJECTLEADER, WORKER
+	ADMIN,
+	PROJECTLEADER,
+	WORKER
 }

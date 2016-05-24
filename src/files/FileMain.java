@@ -5,9 +5,9 @@ import java.util.List;
 
 import users.UserInternalService;
 import users.UserMain;
+import users.UserException.SessionExpired;
+import users.UserException.UnknownUserException;
 import users.datatypes.RequestType;
-import users.exceptions.UserException.SessionExpired;
-import users.exceptions.UserException.UnknownUserException;
 import files.FileExceptions.InexistentFile;
 import files.FileExceptions.InexistentProject;
 import files.FileExceptions.InexistentVersion;

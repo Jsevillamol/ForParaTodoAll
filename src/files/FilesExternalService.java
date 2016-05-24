@@ -3,8 +3,6 @@ package files;
 import java.io.File;
 import java.util.List;
 
-import users.exceptions.UserException.SessionExpired;
-import users.exceptions.UserException.UnknownUserException;
 import files.FileExceptions.InexistentFile;
 import files.FileExceptions.InexistentProject;
 import files.FileExceptions.InexistentVersion;
@@ -14,6 +12,8 @@ import files.FileExceptions.VersionAlreadyExists;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
+import users.UserException.SessionExpired;
+import users.UserException.UnknownUserException;
 
 /**
  * Services offered by the Files system to external systems.

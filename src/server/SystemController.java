@@ -5,10 +5,10 @@ import java.util.List;
 
 import users.UserExternalService;
 import users.UserMain;
+import users.UserException.SessionExpired;
+import users.UserException.UnknownUserException;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
-import users.exceptions.UserException.SessionExpired;
-import users.exceptions.UserException.UnknownUserException;
 import files.FileExceptions.InexistentFile;
 import files.FileExceptions.InexistentProject;
 import files.FileExceptions.InexistentVersion;

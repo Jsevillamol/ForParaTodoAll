@@ -2,12 +2,12 @@ package users;
 
 import java.util.List;
 
+import users.UserException.SessionExpired;
+import users.UserException.UnknownUserException;
 import users.datatypes.LoginInfo;
 import users.datatypes.RequestType;
 import users.datatypes.User;
 import users.datatypes.UserLevel;
-import users.exceptions.UserException.SessionExpired;
-import users.exceptions.UserException.UnknownUserException;
 import users.subsystems.IUserDAO;
 import users.subsystems.SessionManager;
 import users.subsystems.UserDAO;

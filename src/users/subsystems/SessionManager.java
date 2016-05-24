@@ -3,7 +3,7 @@ package users.subsystems;
 import java.util.HashMap;
 import java.util.Map;
 
-import users.exceptions.UserException.SessionExpired;
+import users.UserException.SessionExpired;
 
 
 /**
