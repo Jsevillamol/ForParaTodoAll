@@ -1,10 +1,10 @@
 package users;
 
-import users.UserException.SessionExpired;
-import users.UserException.UnknownUserException;
 import users.datatypes.RequestType;
-import files.FileExceptions.InexistentProject;
+import users.exceptions.UserException.SessionExpired;
+import users.exceptions.UserException.UnknownUserException;
 import files.datatypes.FilePath;
+import files.exceptions.FileException.InexistentProject;
 
 /**
  * API the subsystem users offers to other subsystems.

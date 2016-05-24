@@ -3,24 +3,24 @@ package server;
 import java.io.File;
 import java.util.List;
 
-import users.UserException.IncorrectPassword;
-import users.UserException.SessionExpired;
-import users.UserException.UnknownUserException;
 import users.UserExternalService;
 import users.UserMain;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
-import files.FileExceptions.InexistentFile;
-import files.FileExceptions.InexistentProject;
-import files.FileExceptions.InexistentVersion;
-import files.FileExceptions.InvalidRequest;
-import files.FileExceptions.ProjectAlreadyExists;
-import files.FileExceptions.VersionAlreadyExists;
+import users.exceptions.UserException.IncorrectPassword;
+import users.exceptions.UserException.SessionExpired;
+import users.exceptions.UserException.UnknownUserException;
 import files.FileMain;
 import files.FilesExternalService;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
+import files.exceptions.FileException.InexistentFile;
+import files.exceptions.FileException.InexistentProject;
+import files.exceptions.FileException.InexistentVersion;
+import files.exceptions.FileException.InvalidRequest;
+import files.exceptions.FileException.ProjectAlreadyExists;
+import files.exceptions.FileException.VersionAlreadyExists;
 
 /**
  * Controller which offers all the external functionality of the different

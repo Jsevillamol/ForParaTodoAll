@@ -1,4 +1,4 @@
-package users;
+package users.exceptions;
 
 /**
  * Exceptions which occur in the User subsystem.

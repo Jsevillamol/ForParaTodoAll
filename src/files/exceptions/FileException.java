@@ -1,4 +1,4 @@
-package files;
+package files.exceptions;
 
 import users.datatypes.RequestType;
 import files.datatypes.FilePath;
@@ -8,7 +8,7 @@ import files.datatypes.FilePath;
  * @author Jaime
  *
  */
-public class FileExceptions extends Exception{
+public class FileException extends Exception{
 	private static final long serialVersionUID = 2219233707558869134L;
 	
 	/**
@@ -17,7 +17,7 @@ public class FileExceptions extends Exception{
 	 * @author Jaime
 	 *
 	 */
-	public static class ProjectAlreadyExists extends FileExceptions{
+	public static class ProjectAlreadyExists extends FileException{
 
 		private static final long serialVersionUID = -3768878269292978253L;
 		
@@ -29,7 +29,7 @@ public class FileExceptions extends Exception{
 	 * @author Jaime
 	 *
 	 */
-	public static class VersionAlreadyExists extends FileExceptions{
+	public static class VersionAlreadyExists extends FileException{
 
 		private static final long serialVersionUID = 1L;
 		
@@ -40,7 +40,7 @@ public class FileExceptions extends Exception{
 	 * @author Jaime
 	 *
 	 */
-	public static class InexistentProject extends FileExceptions{
+	public static class InexistentProject extends FileException{
 		private final FilePath project;
 		public InexistentProject(final FilePath project) {
 			this.project = project;
@@ -54,7 +54,7 @@ public class FileExceptions extends Exception{
 	 * @author Jaime
 	 *
 	 */
-	public static class InexistentFile extends FileExceptions{
+	public static class InexistentFile extends FileException{
 
 		private final FilePath file;
 
@@ -71,7 +71,7 @@ public class FileExceptions extends Exception{
 	 * @author Jaime
 	 *
 	 */
-	public static class InexistentVersion extends FileExceptions{
+	public static class InexistentVersion extends FileException{
 
 		private final String versionId;
 
@@ -91,7 +91,7 @@ public class FileExceptions extends Exception{
 	 * @author Jaime
 	 *
 	 */
-	public static class InvalidRequest extends FileExceptions{
+	public static class InvalidRequest extends FileException{
 		private final RequestType create;
 		private final FilePath project;
 		public InvalidRequest(final RequestType create, final FilePath project) {

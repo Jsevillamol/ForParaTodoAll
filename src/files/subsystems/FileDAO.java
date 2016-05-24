@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import files.FileExceptions.InexistentFile;
-import files.FileExceptions.InexistentProject;
-import files.FileExceptions.InexistentVersion;
-import files.FileExceptions.ProjectAlreadyExists;
-import files.FileExceptions.VersionAlreadyExists;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
+import files.exceptions.FileException.InexistentFile;
+import files.exceptions.FileException.InexistentProject;
+import files.exceptions.FileException.InexistentVersion;
+import files.exceptions.FileException.ProjectAlreadyExists;
+import files.exceptions.FileException.VersionAlreadyExists;
 
 /**
  * Singleton implementing IFileDAO.

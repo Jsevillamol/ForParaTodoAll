@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import users.UserException.UnknownUserException;
 import users.datatypes.User;
+import users.exceptions.UserException.UnknownUserException;
 
 /**
  * Controls access to the database of users.

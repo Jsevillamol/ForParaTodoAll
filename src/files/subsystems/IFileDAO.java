@@ -4,14 +4,14 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
-import files.FileExceptions.InexistentFile;
-import files.FileExceptions.InexistentProject;
-import files.FileExceptions.InexistentVersion;
-import files.FileExceptions.ProjectAlreadyExists;
-import files.FileExceptions.VersionAlreadyExists;
 import files.datatypes.FilePath;
 import files.datatypes.Project;
 import files.datatypes.Version;
+import files.exceptions.FileException.InexistentFile;
+import files.exceptions.FileException.InexistentProject;
+import files.exceptions.FileException.InexistentVersion;
+import files.exceptions.FileException.ProjectAlreadyExists;
+import files.exceptions.FileException.VersionAlreadyExists;
 
 /**
  * Controls access to the actual repository of files.
