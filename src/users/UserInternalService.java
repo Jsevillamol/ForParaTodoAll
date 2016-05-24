@@ -3,6 +3,7 @@ package users;
 import users.UserException.SessionExpired;
 import users.UserException.UnknownUserException;
 import users.datatypes.RequestType;
+import files.FileExceptions.InexistentProject;
 import files.datatypes.FilePath;
 
 /**
@@ -29,8 +30,9 @@ public interface UserInternalService {
 	 * Adds user to project bypassing checks.
 	 * Used when a new project is created.
 	 * @throws UnknownUserException 
+	 * @throws InexistentProject 
 	 */
-	void sudoAddUserToProject(String userId, FilePath project) throws UnknownUserException;
+	void sudoAddUserToProject(String userId, FilePath project) throws UnknownUserException, InexistentProject;
 	
 	/**
 	 * Deletes all references to project.

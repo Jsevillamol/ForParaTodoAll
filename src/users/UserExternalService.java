@@ -7,6 +7,7 @@ import users.UserException.SessionExpired;
 import users.UserException.UnknownUserException;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
+import files.FileExceptions.InexistentProject;
 import files.datatypes.FilePath;
 
 /**
@@ -53,13 +54,15 @@ public interface UserExternalService {
 	
 	/**
 	 * Add a new collaborator to a project.
+	 * @throws InexistentProject 
 	 */
-	void addUserToProject(int sessionId, String userId, FilePath project) throws UnknownUserException, SessionExpired;
+	void addUserToProject(int sessionId, String userId, FilePath project) throws UnknownUserException, SessionExpired, InexistentProject;
 	
 	/**
 	 * Removes the privileges of a user to edit a project.
+	 * @throws InexistentProject 
 	 */
 	void deleteUserFromProject(int sessionId, String userId, FilePath project)
-			throws SessionExpired, UnknownUserException;
+			throws SessionExpired, UnknownUserException, InexistentProject;
 	
 }

@@ -12,6 +12,9 @@ import users.datatypes.UserLevel;
 import users.subsystems.IUserDAO;
 import users.subsystems.SessionManager;
 import users.subsystems.UserDAO;
+import files.FileExceptions.InexistentProject;
+import files.FileMain;
+import files.FilesInternaService;
 import files.datatypes.FilePath;
 
 /**
@@ -22,7 +25,19 @@ import files.datatypes.FilePath;
  * one of the interfaces it implements.
  */
 public class UserMain implements UserInternalService, UserExternalService {
-
+	
+	/*
+	 * Internal interfaces
+	 */
+	/**
+	 * Allows interaction with the projects database.
+	 */
+	FilesInternaService fileSystem = FileMain.getInternalService();
+	
+	/*
+	 * User Subsystems
+	 */
+	
 	/**
 	 * Manages the creation, association and deletion of sessions.
 	 */
@@ -110,8 +125,9 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public void addUserToProject(final int sessionId, final String userId, final FilePath project)
-			throws UnknownUserException, SessionExpired {
-
+			throws UnknownUserException, SessionExpired, InexistentProject {
+		if(!fileSystem.existsProject(project))
+			throw new InexistentProject(project);
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
@@ -129,7 +145,9 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public void deleteUserFromProject(final int sessionId, final String userId, final FilePath project)
-			throws SessionExpired, UnknownUserException {
+			throws SessionExpired, UnknownUserException, InexistentProject {
+		if(!fileSystem.existsProject(project))
+			throw new InexistentProject(project);
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
@@ -185,7 +203,9 @@ public class UserMain implements UserInternalService, UserExternalService {
 	}
 
 	@Override
-	public void sudoAddUserToProject(final String userId, final FilePath project) throws UnknownUserException {
+	public void sudoAddUserToProject(final String userId, final FilePath project) throws UnknownUserException, InexistentProject {
+		if(!fileSystem.existsProject(project))
+			throw new InexistentProject(project);
 		final User user = userDAO.getUser(userId);
 		user.addUserToProject(project);
 	}
