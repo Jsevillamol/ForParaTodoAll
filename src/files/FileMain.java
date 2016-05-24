@@ -79,10 +79,10 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 			final FilePath project, 
 			final String description) 
 					throws SessionExpired, ProjectAlreadyExists, InvalidRequest, UnknownUserException {
-		if(userSystem.validateRequest(sessionId, RequestType.Create, project)){
+		if(userSystem.validateRequest(sessionId, RequestType.CREATEFILE, project)){
 			fileDAO.createProject(project, description);
 		}
-		else throw new InvalidRequest(RequestType.Create, project);
+		else throw new InvalidRequest(RequestType.CREATEFILE, project);
 		
 	}
 
@@ -91,67 +91,67 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 			final int sessionId, final FilePath path, 
 			final File file, final String comment) 
 					throws VersionAlreadyExists, InexistentProject, InvalidRequest, UnknownUserException, SessionExpired {
-		if(userSystem.validateRequest(sessionId, RequestType.Edit, path)){
+		if(userSystem.validateRequest(sessionId, RequestType.EDITPROJECT, path)){
 			final Version version = new Version(comment, userSystem.identify(sessionId), null);
 			fileDAO.storeFile(file, version, path);
 		}
-		else throw new InvalidRequest(RequestType.Edit, path);
+		else throw new InvalidRequest(RequestType.EDITPROJECT, path);
 	}
 
 	@Override
 	public Project getProject(final int sessionId, final FilePath project) 
 			throws InexistentProject, InvalidRequest, UnknownUserException, SessionExpired {
-		if(userSystem.validateRequest(sessionId, RequestType.Consult, project)){
+		if(userSystem.validateRequest(sessionId, RequestType.CONSULTPROJECT, project)){
 			return fileDAO.getProject(project);
 		}
-		else throw new InvalidRequest(RequestType.Consult, project);
+		else throw new InvalidRequest(RequestType.CONSULTPROJECT, project);
 	}
 
 	@Override
 	public List<Version> getHistory(final int sessionId, final FilePath file) 
 			throws InvalidRequest, InexistentProject, InexistentFile, UnknownUserException, SessionExpired {
-		if(userSystem.validateRequest(sessionId, RequestType.Consult, file)){
+		if(userSystem.validateRequest(sessionId, RequestType.CONSULTPROJECT, file)){
 			return fileDAO.getVersions(file);
 		}
-		else throw new InvalidRequest(RequestType.Consult, file);
+		else throw new InvalidRequest(RequestType.CONSULTPROJECT, file);
 	}
 
 	@Override
 	public File getVersion(final int sessionId, final Version version, final FilePath path) 
 			throws InexistentProject, InexistentFile, InexistentVersion, InvalidRequest, UnknownUserException, SessionExpired {
-		if(userSystem.validateRequest(sessionId, RequestType.Consult, path)){
+		if(userSystem.validateRequest(sessionId, RequestType.CONSULTPROJECT, path)){
 			return fileDAO.getFile(path, version.getId());
 		}
-		else throw new InvalidRequest(RequestType.Consult, path);
+		else throw new InvalidRequest(RequestType.CONSULTPROJECT, path);
 	}
 
 	@Override
 	public void deleteFile(final int sessionId, final FilePath path) 
 			throws InexistentProject, InexistentFile, InvalidRequest, UnknownUserException, SessionExpired {
-		if(userSystem.validateRequest(sessionId, RequestType.Delete, path)){
+		if(userSystem.validateRequest(sessionId, RequestType.DELETEFILE, path)){
 			fileDAO.deleteFile(path);;
 		}
-		else throw new InvalidRequest(RequestType.Delete, path);
+		else throw new InvalidRequest(RequestType.DELETEFILE, path);
 		
 	}
 
 	@Override
 	public void deleteProject(final int sessionId, final FilePath project) 
 			throws InexistentProject, InvalidRequest, UnknownUserException, SessionExpired {
-		if(userSystem.validateRequest(sessionId, RequestType.Delete, project)){
+		if(userSystem.validateRequest(sessionId, RequestType.DELETEFILE, project)){
 			fileDAO.deleteProject(project);;
 		}
-		else throw new InvalidRequest(RequestType.Delete, project);
+		else throw new InvalidRequest(RequestType.DELETEFILE, project);
 		
 	}
 
 	@Override
 	public List<FilePath> findProjects(final int sessionId, final String regex) 
 			throws InvalidRequest, UnknownUserException, SessionExpired {
-		if(userSystem.validateRequest(sessionId, RequestType.Consult, null)){
+		if(userSystem.validateRequest(sessionId, RequestType.CONSULTPROJECT, null)){
 			return (List<FilePath>) fileDAO.findProjects(regex);
 		}
-		else throw new InvalidRequest(RequestType.Consult, null);
+		else throw new InvalidRequest(RequestType.CONSULTPROJECT, null);
 	}
 	
 	/*

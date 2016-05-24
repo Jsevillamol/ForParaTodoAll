@@ -2,6 +2,11 @@ package users;
 
 import java.util.List;
 
+import files.FileMain;
+import files.FilesInternaService;
+import files.datatypes.FilePath;
+import files.exceptions.FileException.InexistentProject;
+import files.exceptions.FileException.InvalidRequest;
 import users.datatypes.LoginInfo;
 import users.datatypes.RequestType;
 import users.datatypes.User;
@@ -12,10 +17,7 @@ import users.exceptions.UserException.UnknownUserException;
 import users.subsystems.IUserDAO;
 import users.subsystems.SessionManager;
 import users.subsystems.UserDAO;
-import files.FileMain;
-import files.FilesInternaService;
-import files.datatypes.FilePath;
-import files.exceptions.FileException.InexistentProject;
+
 
 /**
  * Singleton facade which builds the whole subsystem and offers its
@@ -105,7 +107,6 @@ public class UserMain implements UserInternalService, UserExternalService {
 	@Override
 	public void changeLoginInfo(final int sessionId, final LoginInfo newInfo)
 			throws SessionExpired, UnknownUserException {
-
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.changeInfo(newInfo);
@@ -114,20 +115,22 @@ public class UserMain implements UserInternalService, UserExternalService {
 	@Override
 	public List<FilePath> getProjects(final int sessionId) throws UnknownUserException, SessionExpired {
 		return userDAO.getUser(sessionManager.getUser(sessionId)).getProjects();
-
 	}
 
 	@Override
-	public void createUser(final int sessionId, final LoginInfo newUserInfo, final UserLevel newUserLevel) {
+	public void createUser(final int sessionId, final LoginInfo newUserInfo, final UserLevel newUserLevel) 
+			throws UnknownUserException, SessionExpired, InvalidRequest {
+		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
 		final User newUser = new User(newUserInfo.userId, newUserInfo.password, newUserLevel);
 		userDAO.storeUser(newUser);
 	}
 
 	@Override
 	public void addUserToProject(final int sessionId, final String userId, final FilePath project)
-			throws UnknownUserException, SessionExpired, InexistentProject {
+			throws UnknownUserException, SessionExpired, InexistentProject, InvalidRequest {
 		if(!fileSystem.existsProject(project))
 			throw new InexistentProject(project);
+		if(!validateRequest(sessionId, RequestType.MANAGEUSER, project))throw new InvalidRequest(RequestType.MANAGEUSER, project);
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
@@ -136,8 +139,8 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public void changeLevel(final int sessionId, final String user, final UserLevel newLevel)
-			throws UnknownUserException {
-
+			throws UnknownUserException, SessionExpired, InvalidRequest {
+		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
 		final User userAux = userDAO.getUser(user);
 		userAux.changeLevel(newLevel);
 
@@ -145,18 +148,19 @@ public class UserMain implements UserInternalService, UserExternalService {
 
 	@Override
 	public void deleteUserFromProject(final int sessionId, final String userId, final FilePath project)
-			throws SessionExpired, UnknownUserException, InexistentProject {
+			throws SessionExpired, UnknownUserException, InexistentProject, InvalidRequest {
 		if(!fileSystem.existsProject(project))
 			throw new InexistentProject(project);
+		if(!validateRequest(sessionId, RequestType.MANAGEUSER, project))throw new InvalidRequest(RequestType.MANAGEUSER, project);
 		final String stringUser = sessionManager.getUser(sessionId);
 		final User user = userDAO.getUser(stringUser);
 		user.addUserToProject(project);
 	}
 
 	@Override
-	public void deleteUser(final int sessionId) throws SessionExpired, UnknownUserException {
+	public void deleteUser(final int sessionId) throws SessionExpired, UnknownUserException, InvalidRequest {
+		if(!validateRequest(sessionId, RequestType.EDITUSER, null))throw new InvalidRequest(RequestType.EDITUSER, null);
 		final String stringUser = sessionManager.getUser(sessionId);
-
 		userDAO.deleteUser(stringUser);
 
 	}
@@ -170,13 +174,13 @@ public class UserMain implements UserInternalService, UserExternalService {
 			throws UnknownUserException, SessionExpired {
 		final User user = userDAO.getUser(sessionManager.getUser(sessionId));
 		switch (request) {
-		case Create:
+		case CREATEFILE:
 			if (user.getUserLevel() == UserLevel.ADMIN || user.getUserLevel() == UserLevel.PROJECTLEADER) {
 				return true;
 			} else {
 				return false;
 			}
-		case Edit:
+		case EDITPROJECT:
 			if (user.getUserLevel() == UserLevel.ADMIN) {
 				return true;
 			} else if (user.isACollaborator(filePath)) {
@@ -184,10 +188,22 @@ public class UserMain implements UserInternalService, UserExternalService {
 			} else {
 				return false;
 			}
-		case Delete:
+		case DELETEFILE:
 			if (user.getUserLevel() == UserLevel.ADMIN) {
 				return true;
 			} else if (user.getUserLevel() == UserLevel.ADMIN && user.isACollaborator(filePath)) {
+				return true;
+			} else {
+				return false;
+			}
+		case EDITUSER:
+			if (user.getUserLevel() == UserLevel.ADMIN ) {
+				return true;
+			} else {
+				return false;
+			}
+		case MANAGEUSER:
+			if (user.getUserLevel() == UserLevel.ADMIN || (user.getUserLevel() == UserLevel.PROJECTLEADER && user.isACollaborator(filePath)) ) {
 				return true;
 			} else {
 				return false;

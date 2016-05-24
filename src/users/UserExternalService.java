@@ -2,13 +2,14 @@ package users;
 
 import java.util.List;
 
+import files.datatypes.FilePath;
+import files.exceptions.FileException.InexistentProject;
+import files.exceptions.FileException.InvalidRequest;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
 import users.exceptions.UserException.IncorrectPassword;
 import users.exceptions.UserException.SessionExpired;
 import users.exceptions.UserException.UnknownUserException;
-import files.datatypes.FilePath;
-import files.exceptions.FileException.InexistentProject;
 
 /**
  * Functionality the subsystem user offers to external controllers.
@@ -23,8 +24,11 @@ public interface UserExternalService {
 	
 	/**
 	 * Adds a new user with the specified level to the database.
+	 * @throws SessionExpired 
+	 * @throws UnknownUserException 
+	 * @throws InvalidRequest 
 	 */
-	void createUser(int sessionId, LoginInfo newUserInfo, UserLevel newUserLevel);
+	void createUser(int sessionId, LoginInfo newUserInfo, UserLevel newUserLevel) throws UnknownUserException, SessionExpired, InvalidRequest;
 	
 	/**
 	 * Deletes the account of a logged user with the indicated sessionId.
@@ -32,8 +36,9 @@ public interface UserExternalService {
 	 * @param sessionId
 	 * @throws SessionExpired
 	 * @throws UnknownUserException 
+	 * @throws InvalidRequest 
 	 */
-	void deleteUser(int sessionId) throws SessionExpired, UnknownUserException;
+	void deleteUser(int sessionId) throws SessionExpired, UnknownUserException, InvalidRequest;
 	
 	/**
 	 * Returns a list of project identifiers in which the user is a participant.
@@ -49,20 +54,24 @@ public interface UserExternalService {
 	
 	/**
 	 * Changes the privileges of a user.
+	 * @throws InvalidRequest 
+	 * @throws SessionExpired 
 	 */
-	void changeLevel(int sessionId, String user, UserLevel newLevel) throws UnknownUserException;
+	void changeLevel(int sessionId, String user, UserLevel newLevel) throws UnknownUserException, SessionExpired, InvalidRequest;
 	
 	/**
 	 * Add a new collaborator to a project.
 	 * @throws InexistentProject 
+	 * @throws InvalidRequest 
 	 */
-	void addUserToProject(int sessionId, String userId, FilePath project) throws UnknownUserException, SessionExpired, InexistentProject;
+	void addUserToProject(int sessionId, String userId, FilePath project) throws UnknownUserException, SessionExpired, InexistentProject, InvalidRequest;
 	
 	/**
 	 * Removes the privileges of a user to edit a project.
 	 * @throws InexistentProject 
+	 * @throws InvalidRequest 
 	 */
 	void deleteUserFromProject(int sessionId, String userId, FilePath project)
-			throws SessionExpired, UnknownUserException, InexistentProject;
+			throws SessionExpired, UnknownUserException, InexistentProject, InvalidRequest;
 	
 }

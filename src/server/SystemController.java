@@ -106,31 +106,31 @@ public class SystemController implements ISystemController {
 	}
 
 	@Override
-	public void createUser(final int sessionId, final LoginInfo newUserInfo, final UserLevel newUserLevel) {
+	public void createUser(final int sessionId, final LoginInfo newUserInfo, final UserLevel newUserLevel) throws UnknownUserException, SessionExpired, InvalidRequest {
 		usersSystem.createUser(sessionId, newUserInfo, newUserLevel);
 	}
 
 	@Override
 	public void addUserToProject(final int sessionId, final String userId, final FilePath project)
-			throws UnknownUserException, SessionExpired, InexistentProject {
+			throws UnknownUserException, SessionExpired, InexistentProject, InvalidRequest {
 		usersSystem.addUserToProject(sessionId, userId, project);
 	}
 
 	@Override
 	public void changeLevel(final int sessionId, final String user, final UserLevel newLevel)
-			throws UnknownUserException {
+			throws UnknownUserException, SessionExpired, InvalidRequest {
 
 		usersSystem.changeLevel(sessionId, user, newLevel);
 	}
 
 	@Override
-	public void deleteUser(final int sessionId) throws SessionExpired, UnknownUserException {
+	public void deleteUser(final int sessionId) throws SessionExpired, UnknownUserException, InvalidRequest {
 		usersSystem.deleteUser(sessionId);
 	}
 
 	@Override
 	public void deleteUserFromProject(final int sessionId, final String userId, final FilePath project)
-			throws SessionExpired, UnknownUserException, InexistentProject {
+			throws SessionExpired, UnknownUserException, InexistentProject, InvalidRequest {
 		usersSystem.deleteUserFromProject(sessionId, userId, project);
 
 	}

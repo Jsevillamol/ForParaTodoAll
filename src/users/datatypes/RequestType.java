@@ -5,8 +5,10 @@ package users.datatypes;
  * for permits verification purposes
  */
 public enum RequestType {
-	Create,
-	Delete,
-	Edit,
-	Consult
+	CREATEFILE,
+	DELETEFILE,
+	EDITPROJECT,
+	CONSULTPROJECT,
+	EDITUSER,
+	MANAGEUSER
 }
