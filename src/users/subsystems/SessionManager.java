@@ -61,4 +61,17 @@ public class SessionManager {
 	public String getUser(final int sessionId) throws SessionExpired{
 		return sessions.get(sessionId);
 	}
+	
+	/**
+	 * Changes the user associated to a session.
+	 * @param sessionId
+	 * @param userId
+	 * @throws SessionExpired 
+	 */
+	public void changeSession(final int sessionId, final String userId) throws SessionExpired {
+		if(!sessions.containsKey(sessionId))
+			throw new SessionExpired();
+		sessions.put(sessionId, userId);
+		
+	}
 }

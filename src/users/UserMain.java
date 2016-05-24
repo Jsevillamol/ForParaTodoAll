@@ -115,6 +115,8 @@ public class UserMain implements UserInternalService, UserExternalService {
 			throw new RuntimeException(e);
 		}
 		user.changeInfo(newInfo);
+		sessionManager.changeSession(sessionId, newInfo.userId);
+		userDAO.storeUser(user);
 	}
 
 	@Override
