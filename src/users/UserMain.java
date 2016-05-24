@@ -198,8 +198,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 			try {
 				user = userDAO.getUser(userId);
 			} catch (final UnknownUserException e) {
-				e.printStackTrace();
-				throw new RuntimeException();
+				throw new RuntimeException(e);
 			}
 			if(user.isACollaborator(project)){
 				user.removeProject(project);
