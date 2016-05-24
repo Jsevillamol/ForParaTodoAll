@@ -105,6 +105,13 @@ public class FileException extends Exception{
 			this.file = file;
 		}
 
+		/**
+		 * @return the file
+		 */
+		public FilePath getFile() {
+			return file;
+		}
+
 		private static final long serialVersionUID = 12L;
 		
 	}
@@ -128,6 +135,20 @@ public class FileException extends Exception{
 			super();
 			this.file = file;
 			this.versionId = versionId;
+		}
+
+		/**
+		 * @return the file
+		 */
+		public FilePath getFile() {
+			return file;
+		}
+
+		/**
+		 * @return the versionId
+		 */
+		public String getVersionId() {
+			return versionId;
 		}
 
 		private static final long serialVersionUID = 13L;

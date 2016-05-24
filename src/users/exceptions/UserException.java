@@ -120,6 +120,20 @@ public class UserException extends Exception{
 			this.project = null;
 		}
 		
+		/**
+		 * @return the request
+		 */
+		public RequestType getRequest() {
+			return request;
+		}
+
+		/**
+		 * @return the project
+		 */
+		public FilePath getProject() {
+			return project;
+		}
+
 		private static final long serialVersionUID = 1L;
 		
 	}
