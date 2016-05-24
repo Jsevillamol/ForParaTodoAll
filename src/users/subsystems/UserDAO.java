@@ -20,7 +20,7 @@ public class UserDAO implements IUserDAO {
 	 * In a serious production environment, those classes would be replaced by an
 	 * actual database.
 	 */
-	private Map<String, User> dataBase = new HashMap<String, User>();
+	private final Map<String, User> dataBase = new HashMap<String, User>();
 	/**
 	 * Creation of instances aside from singleton disallowed.
 	 */
@@ -40,7 +40,7 @@ public class UserDAO implements IUserDAO {
 	
 	@Override
 	public User getUser(final String userId) throws UnknownUserException{
-		if(!dataBase.containsKey(userId))throw new UnknownUserException();
+		if(!dataBase.containsKey(userId))throw new UnknownUserException(userId);
 		else return dataBase.get(userId);
 	}
 	
@@ -51,7 +51,7 @@ public class UserDAO implements IUserDAO {
 	
 	@Override
 	public void deleteUser(final String userId) throws UnknownUserException {
-		if(!dataBase.containsKey(userId))throw new UnknownUserException();
+		if(!dataBase.containsKey(userId))throw new UnknownUserException(userId);
 		else dataBase.remove(userId);
 	}
 	

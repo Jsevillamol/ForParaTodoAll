@@ -7,6 +7,7 @@ import users.datatypes.RequestType;
 import users.datatypes.User;
 import users.datatypes.UserLevel;
 import users.exceptions.UserException.IncorrectPassword;
+import users.exceptions.UserException.InvalidRequest;
 import users.exceptions.UserException.SessionExpired;
 import users.exceptions.UserException.UnknownUserException;
 import users.exceptions.UserException.UserAlreadyExists;
@@ -17,7 +18,6 @@ import files.FileMain;
 import files.FilesInternaService;
 import files.datatypes.FilePath;
 import files.exceptions.FileException.InexistentProject;
-import files.exceptions.FileException.InvalidRequest;
 
 
 /**
@@ -140,9 +140,9 @@ public class UserMain implements UserInternalService, UserExternalService {
 	public void createUser(final int sessionId, final LoginInfo newUserInfo, final UserLevel newUserLevel) 
 			throws SessionExpired, InvalidRequest, UserAlreadyExists {
 		if(!validateRequest(sessionId, RequestType.EDITUSER, null))
-			throw new InvalidRequest(RequestType.EDITUSER, null);
+			throw new InvalidRequest(RequestType.EDITUSER);
 		if(userDAO.contains(newUserInfo.userId))
-			throw new UserAlreadyExists();
+			throw new UserAlreadyExists(newUserInfo.userId);
 		final User newUser = new User(newUserInfo.userId, newUserInfo.password, newUserLevel);
 		userDAO.storeUser(newUser);
 	}

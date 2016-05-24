@@ -1,6 +1,5 @@
 package files.exceptions;
 
-import users.datatypes.RequestType;
 import files.datatypes.FilePath;
 
 /**
@@ -135,33 +134,5 @@ public class FileException extends Exception{
 		
 	}
 	
-	/**
-	 * Thrown when a user sends a request without having
-	 * the privileges to do so.
-	 * The filePath indicates over which project/file the user was attempting
-	 * the operation. If null, then the operation was over the whole database.
-	 * @author Jaime
-	 *
-	 */
-	public static class InvalidRequest extends FileException{
-		/**
-		 * Action we were trying to perform.
-		 */
-		private final RequestType create;
-		
-		/**
-		 * Over what file/project we where trying to perform the operation.
-		 * If null, it refers to the whole database.
-		 */
-		private final FilePath project;
-		
-		public InvalidRequest(final RequestType create, final FilePath project) {
-			super();
-			this.create = create;
-			this.project = project;
-		}
-
-		private static final long serialVersionUID = 1L;
-		
-	}
+	
 }

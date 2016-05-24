@@ -3,6 +3,7 @@ package files;
 import java.io.File;
 import java.util.List;
 
+import users.exceptions.UserException.InvalidRequest;
 import users.exceptions.UserException.SessionExpired;
 import users.exceptions.UserException.UnknownUserException;
 import files.datatypes.FilePath;
@@ -11,7 +12,6 @@ import files.datatypes.Version;
 import files.exceptions.FileException.InexistentFile;
 import files.exceptions.FileException.InexistentProject;
 import files.exceptions.FileException.InexistentVersion;
-import files.exceptions.FileException.InvalidRequest;
 import files.exceptions.FileException.ProjectAlreadyExists;
 import files.exceptions.FileException.VersionAlreadyExists;
 

@@ -5,12 +5,12 @@ import java.util.List;
 import users.datatypes.LoginInfo;
 import users.datatypes.UserLevel;
 import users.exceptions.UserException.IncorrectPassword;
+import users.exceptions.UserException.InvalidRequest;
 import users.exceptions.UserException.SessionExpired;
 import users.exceptions.UserException.UnknownUserException;
 import users.exceptions.UserException.UserAlreadyExists;
 import files.datatypes.FilePath;
 import files.exceptions.FileException.InexistentProject;
-import files.exceptions.FileException.InvalidRequest;
 
 /**
  * Functionality the subsystem user offers to external controllers.
