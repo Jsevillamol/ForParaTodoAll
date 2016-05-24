@@ -52,5 +52,17 @@ public class UserException extends Exception{
 		private static final long serialVersionUID = 1378175415964262311L;
 		
 	}
+	
+	/**
+	 * Thrown when a user sends a request to Users without having the
+	 * privileges to do so.
+	 * @author Jaime
+	 *
+	 */
+	public static class InvalidRequest extends UserException {
+
+		private static final long serialVersionUID = -5467143102226475382L;
+		
+	}
 
 }
