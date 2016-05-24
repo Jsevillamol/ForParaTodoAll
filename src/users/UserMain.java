@@ -188,10 +188,16 @@ public class UserMain implements UserInternalService, UserExternalService {
 	}
 
 	@Override
-	public void deleteReferences(final FilePath project) throws UnknownUserException{
+	public void deleteReferences(final FilePath project){
 		List<String> userList = userDAO.searchUsers(null);
 		for(String userId: userList){
-			User user = userDAO.getUser(userId);
+			User user;
+			try {
+				user = userDAO.getUser(userId);
+			} catch (UnknownUserException e) {
+				e.printStackTrace();
+				throw new RuntimeException();
+			}
 			if(user.isACollaborator(project)){
 				user.removeProject(project);
 			}
