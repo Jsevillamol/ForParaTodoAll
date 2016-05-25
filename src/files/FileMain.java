@@ -43,7 +43,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 	/**
 	 * Creation of instances aside from singleton disallowed.
 	 */
-	private FileMain(){};
+	protected FileMain(){};
 	
 	private static FileMain singleton = null;
 	

@@ -24,7 +24,7 @@ public class UserDAO implements IUserDAO {
 	/**
 	 * Creation of instances aside from singleton disallowed.
 	 */
-	private UserDAO(){	};
+	protected UserDAO(){	};
 	
 	private static UserDAO singleton = null;
 	

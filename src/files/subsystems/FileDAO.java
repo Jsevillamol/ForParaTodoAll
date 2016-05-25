@@ -89,7 +89,7 @@ public class FileDAO implements IFileDAO {
 	/**
 	 * Creation of instances aside from singleton disallowed.
 	 */
-	private FileDAO(){};
+	protected FileDAO(){};
 	
 	private static FileDAO singleton = null;
 	

@@ -54,7 +54,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 	/**
 	 * Constructor is private, as this is a singleton.
 	 */
-	private UserMain() {
+	protected UserMain() {
 	}
 
 	private static UserMain singleton = null;

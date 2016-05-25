@@ -16,7 +16,7 @@ public class SessionManager {
 	/**
 	 * Creation of instances aside from singleton disallowed.
 	 */
-	private SessionManager(){};
+	protected SessionManager(){};
 	
 	private static SessionManager singleton = null;
 	
