@@ -2,6 +2,7 @@ package users.subsystems;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import users.exceptions.UserException.SessionExpired;
 
@@ -37,7 +38,8 @@ public class SessionManager {
 	public int generateSession(final String userId){
 		int randomSession;
 		do{
-			randomSession = 42; //TODO gen random number
+			final Random rng = new Random();
+			randomSession = rng.nextInt();
 		}while(sessions.containsKey(randomSession));
 		sessions.put(randomSession,userId);
 		return randomSession;
