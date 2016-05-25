@@ -11,7 +11,7 @@ import users.exceptions.UserException.SessionExpired;
  * Singleton.
  */
 public class SessionManager {
-	private final Map<Integer, String> sessions = new HashMap<>();
+	private final Map<Integer, String> sessions = new HashMap<Integer, String>();
 	
 	/**
 	 * Creation of instances aside from singleton disallowed.
