@@ -3,6 +3,7 @@ package files.subsystems;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -84,7 +85,7 @@ public class FileDAO implements IFileDAO {
 	 * @author Jaime
 	 *
 	 */
-	protected Map<FilePath, Repository> database;
+	protected Map<FilePath, Repository> database = new HashMap<>();
 	
 	/**
 	 * Creation of instances aside from singleton disallowed.
