@@ -30,7 +30,7 @@ public class TestUser {
 		ID = iD;
 		USER_LEVEL = uSER_LEVEL;
 		PASSWORD = pASSWORD;
-		this.PASSWORD2 = PASSWORD;
+		this.PASSWORD2 = PASSWORD2;
 	}
 	
 	@SuppressWarnings("rawtypes")
