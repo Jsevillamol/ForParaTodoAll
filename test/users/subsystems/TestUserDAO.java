@@ -28,7 +28,7 @@ public class TestUserDAO extends UserDAO {
 	/*
 	 * Default info for default admin.
 	 */
-	static String ADMIN_NAME = "SysAdmin", ADMIN_PASSWORD = "CMF6WTtTLJ";
+	public static String ADMIN_NAME = "SysAdmin", ADMIN_PASSWORD = "CMF6WTtTLJ";
 	
 	/**
 	 * Creates a UserDAO with a default user with admin privileges.

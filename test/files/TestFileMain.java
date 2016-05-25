@@ -4,6 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import users.TestUserMain;
+import files.subsystems.TestFileDAO;
+
 /**
  * Class to test FileMain.
  * @author Jaime
@@ -11,8 +14,16 @@ import org.junit.Test;
  */
 public class TestFileMain extends FileMain {
 	
-	//Under construction. Please refrain from touching.
+	static FileMain reference;
 	
+	public static FileMain getReference() {
+		if(reference == null){
+			reference = new FileMain();
+			reference.userSystem = TestUserMain.getReference();
+			reference.fileDAO = TestFileDAO.getReference();
+		}
+		return reference;
+	}
 	@Test
 	public void testTest(){
 		assertTrue(true);
