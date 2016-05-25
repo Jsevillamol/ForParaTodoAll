@@ -4,7 +4,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
-import files.UserMainTest;
+import files.subsystems.TestFileDAO;
 
 /**
  * Runs all tests in the test suite.
@@ -15,7 +15,7 @@ public class TestRunner {
    public static void main(final String[] args) {
       final Result result = JUnitCore.runClasses(
     		  //Test suite
-    		  UserMainTest.class
+    		  TestFileDAO.class
     		  //Here go classes
     		  );
       for (final Failure failure : result.getFailures()) {
