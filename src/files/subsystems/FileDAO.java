@@ -29,9 +29,9 @@ public class FileDAO implements IFileDAO {
 	 */
 	
 	/**
-	 * 
+	 * A concrete file together with version info.
 	 */
-	private static class FileVersion{
+	static class FileVersion{
 		public FileVersion(final File file2, final Version version2) {
 			this.file = file2;
 			this.version = version2;
@@ -46,7 +46,7 @@ public class FileDAO implements IFileDAO {
 	 * @author Jaime
 	 *
 	 */
-	private static class FileHistory{
+	static class FileHistory{
 		public FileHistory(final FileVersion v) {
 			fileHistory = new TreeMap<String, FileVersion>();
 			fileHistory.put(v.version.getId(), v);
@@ -60,7 +60,7 @@ public class FileDAO implements IFileDAO {
 	 * @author Jaime
 	 *
 	 */
-	private static class Repository {
+	static class Repository {
 		public Repository(final String description) {
 			repository = new TreeMap<FilePath, FileHistory>();
 			this.description = description;
@@ -84,7 +84,7 @@ public class FileDAO implements IFileDAO {
 	 * @author Jaime
 	 *
 	 */
-	private	Map<FilePath, Repository> database;
+	protected Map<FilePath, Repository> database;
 	
 	/**
 	 * Creation of instances aside from singleton disallowed.
