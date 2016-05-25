@@ -38,7 +38,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 	/**
 	 * Interface to user subsystem for request validation, etc.
 	 */
-	UserInternalService userSystem = UserMain.getUserInternalService();
+	UserInternalService userSystem;
 	
 	/**
 	 * Creation of instances aside from singleton disallowed.
@@ -52,9 +52,10 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 	 * Returns a reference to the singleton.
 	 * If there is no reference yet, creates it.
 	 */
-	private synchronized static FileMain getReference(){
+	protected synchronized static FileMain getReference(){
 		if(singleton == null)
 			singleton = new FileMain();
+			singleton.userSystem = UserMain.getUserInternalService();
 		return singleton;
 	}
 	

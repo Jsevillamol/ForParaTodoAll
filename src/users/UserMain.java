@@ -35,7 +35,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 	/**
 	 * Allows interaction with the projects database.
 	 */
-	FilesInternaService fileSystem = FileMain.getInternalService();
+	FilesInternaService fileSystem;
 	
 	/*
 	 * User Subsystems
@@ -63,9 +63,10 @@ public class UserMain implements UserInternalService, UserExternalService {
 	 * Singleton factory. Returns a reference to the singleton. If there is no
 	 * reference yet, creates it.
 	 */
-	private static synchronized UserMain getReference() {
+	protected static synchronized UserMain getReference() {
 		if (singleton == null) {
 			singleton = new UserMain();
+			singleton.fileSystem = FileMain.getInternalService();
 			return singleton;
 		} else
 			return singleton;
@@ -96,7 +97,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 		int sessionId = -1;
 
 		user = userDAO.getUser(loginInfo.userId);
-
+			
 		if (user.checkPassword(loginInfo.password)) {
 			sessionId = sessionManager.generateSession(loginInfo.userId);
 		} else {
