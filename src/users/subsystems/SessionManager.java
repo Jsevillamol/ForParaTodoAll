@@ -11,7 +11,7 @@ import users.exceptions.UserException.SessionExpired;
  * Singleton.
  */
 public class SessionManager {
-	private final Map<Integer, String> sessions = new HashMap<Integer, String>();
+	protected Map<Integer, String> sessions = new HashMap<Integer, String>();
 	
 	/**
 	 * Creation of instances aside from singleton disallowed.
@@ -38,8 +38,8 @@ public class SessionManager {
 		int randomSession;
 		do{
 			randomSession = 42; //TODO gen random number
-			sessions.put(randomSession,userId);
 		}while(sessions.containsKey(randomSession));
+		sessions.put(randomSession,userId);
 		return randomSession;
 	}
 	
@@ -58,6 +58,8 @@ public class SessionManager {
 	 * If no session has that ID, raises an exception.
 	 */
 	public String getUser(final int sessionId) throws SessionExpired{
+		if(!sessions.containsKey(sessionId))
+			throw new SessionExpired();
 		return sessions.get(sessionId);
 	}
 	

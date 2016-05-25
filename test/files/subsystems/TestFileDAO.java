@@ -79,6 +79,7 @@ public class TestFileDAO extends FileDAO {
 		} catch (final ProjectAlreadyExists e) {
 			e.printStackTrace();
 		}
+		
 		try{
 			storeFile(FILE, VERSION, FILEPATH);
 		} catch (VersionAlreadyExists | InexistentProject e) {

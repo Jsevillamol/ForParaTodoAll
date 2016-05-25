@@ -5,6 +5,8 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 import users.datatypes.TestUser;
+import users.subsystems.TestSessionManager;
+import users.subsystems.TestUserDAO;
 import files.subsystems.TestFileDAO;
 
 /**
@@ -17,7 +19,9 @@ public class TestRunner {
       final Result result = JUnitCore.runClasses(
     		  //Test suite
     		  TestFileDAO.class,
-    		  TestUser.class
+    		  TestUser.class,
+    		  TestUserDAO.class,
+    		  TestSessionManager.class
     		  //Here go classes
     		  );
       for (final Failure failure : result.getFailures()) {
