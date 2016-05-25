@@ -11,6 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+/**
+ * Class for testing User.
+ * @author Jaime
+ *
+ */
 @RunWith(Parameterized.class)
 public class TestUser {
 	private final String ID;
@@ -36,11 +41,17 @@ public class TestUser {
 	      });
 	}
 	
+	/**
+	 * Resets user field.
+	 */
 	@Before
 	public void setUp(){
 		user = new User(ID, PASSWORD, USER_LEVEL);
 	}
 	
+	/**
+	 * Tests that the password check functions correctly.
+	 */
 	@Test
 	public void testPassword(){
 		assertTrue(user.checkPassword(PASSWORD));
