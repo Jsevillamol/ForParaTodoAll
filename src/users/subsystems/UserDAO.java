@@ -20,7 +20,7 @@ public class UserDAO implements IUserDAO {
 	 * In a serious production environment, those classes would be replaced by an
 	 * actual database.
 	 */
-	private final Map<String, User> dataBase = new HashMap<String, User>();
+	protected Map<String, User> dataBase = new HashMap<String, User>();
 	/**
 	 * Creation of instances aside from singleton disallowed.
 	 */
