@@ -27,7 +27,7 @@ import files.subsystems.IFileDAO;
  * Depends on the Users module.
  * Handles all calls to the File subsystem and interactions with other modules.
  */
-public class FileMain implements FilesExternalService, FilesInternaService{
+public class FileMain implements FilesExternalService, FilesInternalService{
 	
 	/**
 	 * Data Access Object which allows interactions with the 
@@ -70,7 +70,7 @@ public class FileMain implements FilesExternalService, FilesInternaService{
 	 * Abstract factory for Internal Services singleton.
 	 * @return
 	 */
-	public static FilesInternaService getInternalService(){
+	public static FilesInternalService getInternalService(){
 		return getReference();
 	}
 	

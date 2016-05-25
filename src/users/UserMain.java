@@ -15,7 +15,7 @@ import users.subsystems.IUserDAO;
 import users.subsystems.SessionManager;
 import users.subsystems.UserDAO;
 import files.FileMain;
-import files.FilesInternaService;
+import files.FilesInternalService;
 import files.datatypes.FilePath;
 import files.exceptions.FileException.InexistentProject;
 
@@ -35,7 +35,7 @@ public class UserMain implements UserInternalService, UserExternalService {
 	/**
 	 * Allows interaction with the projects database.
 	 */
-	FilesInternaService fileSystem;
+	FilesInternalService fileSystem;
 	
 	/*
 	 * User Subsystems

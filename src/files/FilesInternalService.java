@@ -8,7 +8,7 @@ import files.datatypes.FilePath;
  * @author Jaime
  *
  */
-public interface FilesInternaService {
+public interface FilesInternalService {
 	/**
 	 * Returns true iff the project exists.
 	 * Intended to be used by Users to prevent adding collaborators
