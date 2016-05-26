@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import static org.junit.Assert.assertTrue;
 
 import users.datatypes.User;
 import users.datatypes.UserLevel;
@@ -78,7 +79,7 @@ public class TestUserDAO extends UserDAO {
 	public void tearDown(){
 		dataBase = new HashMap<>();
 	}
-	
+
 	@Test
 	public void testGetUser() throws UnknownUserException{
 		assertEquals("The user retrieved should match the key used!", oldUser,getUser(oldUser.getUserId()));
@@ -87,5 +88,22 @@ public class TestUserDAO extends UserDAO {
 	@Test(expected = UnknownUserException.class)
 	public void testGetUserWithUnknownUser() throws UnknownUserException{
 		getUser(newUser.getUserId());
+	}
+
+	@Test
+	public void testDeleteUser() throws UnknownUserException{
+		deleteUser(oldUser.getUserId());
+		boolean succes = false;
+		try {
+			getUser(oldUser.getUserId());
+		}catch (UnknownUserException e) {
+			succes = true;
+		}
+		assertTrue(succes);
+	}
+	
+	@Test(expected = UnknownUserException.class)
+	public void testDeleteUserWithUnknownUser() throws UnknownUserException{
+		deleteUser(newUser.getUserId());
 	}
 }
