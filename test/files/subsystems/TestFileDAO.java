@@ -53,7 +53,7 @@ public class TestFileDAO extends FileDAO {
 		PROJECT2 = new FilePath(pROJECT_NAME2);
 		PROJECT_DESCRIPTION = pROJECT_DESCRIPTION;
 		FILEPATH = new FilePath(pROJECT_NAME, fILE_NAME);
-		FILEPATH2 = new FilePath(pROJECT_NAME, fILE_NAME2);
+		FILEPATH2 = new FilePath(pROJECT_NAME2, fILE_NAME2);
 		FILE = new File(fILE);
 		DATE = new Date(ePOCH);
 		USERID = uSERID;
@@ -77,7 +77,6 @@ public class TestFileDAO extends FileDAO {
 	 */
 	@Before
 	public void setUp(){
-		
 		try {
 			createProject(PROJECT, PROJECT_DESCRIPTION);
 		} catch (final ProjectAlreadyExists e) {
@@ -116,5 +115,20 @@ public class TestFileDAO extends FileDAO {
 	@Test(expected=ProjectAlreadyExists.class)
 	public void testCreateProjectWhichAlreadyExists() throws ProjectAlreadyExists{
 		createProject(PROJECT, PROJECT_DESCRIPTION);
+	}
+	
+	@Test
+	public void testAddingAnewVersion() throws VersionAlreadyExists, InexistentProject{
+		storeFile(FILE, VERSION2, FILEPATH);
+	}
+	
+	@Test(expected = VersionAlreadyExists.class)
+	public void testAddingARepeatedVersion() throws VersionAlreadyExists, InexistentProject{
+		storeFile(FILE, VERSION, FILEPATH);
+	}
+	
+	@Test(expected = InexistentProject.class)
+	public void testAddingAVersionOfAnInexistentProject() throws VersionAlreadyExists, InexistentProject{
+		storeFile(FILE, VERSION, FILEPATH2);
 	}
 }

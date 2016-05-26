@@ -4,9 +4,11 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
+import users.TestUserMain;
 import users.datatypes.TestUser;
 import users.subsystems.TestSessionManager;
 import users.subsystems.TestUserDAO;
+import files.TestFileMain;
 import files.subsystems.TestFileDAO;
 
 /**
@@ -18,11 +20,14 @@ public class TestRunner {
    public static void main(final String[] args) {
       final Result result = JUnitCore.runClasses(
     		  //Test suite
+    		  //Component tests
     		  TestFileDAO.class,
     		  TestUser.class,
     		  TestUserDAO.class,
-    		  TestSessionManager.class
-    		  //Here go classes
+    		  TestSessionManager.class,
+    		  //Integration test
+    		  TestUserMain.class,
+    		  TestFileMain.class
     		  );
       for (final Failure failure : result.getFailures()) {
          System.out.println(failure.toString());
