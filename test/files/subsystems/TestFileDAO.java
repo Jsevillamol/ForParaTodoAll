@@ -27,6 +27,10 @@ import files.exceptions.FileException.VersionAlreadyExists;
 @RunWith(Parameterized.class)
 public class TestFileDAO extends FileDAO {
 	
+	public static IFileDAO getReference(){
+		return new FileDAO();
+	}
+	
 	private final FilePath PROJECT;
 	private final FilePath PROJECT2;
 	private final String PROJECT_DESCRIPTION;

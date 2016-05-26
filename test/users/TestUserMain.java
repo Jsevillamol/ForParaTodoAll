@@ -1,6 +1,5 @@
 package users;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,12 +25,11 @@ public class TestUserMain extends UserMain {
 	static UserMain reference;
 	
 	public static UserMain getReference() {
-		if(reference == null){
-			reference = new UserMain();
-			reference.fileSystem = TestFileMain.getReference();
-			reference.sessionManager = TestSessionManager.getReference();
-			reference.userDAO = TestUserDAO.getReference();
-		}
+		reference = new UserMain();
+		reference.fileSystem = TestFileMain.getReference();
+		reference.sessionManager = TestSessionManager.getReference();
+		reference.userDAO = TestUserDAO.getReference();
+		
 		return reference;
 	}
 	
@@ -74,11 +72,6 @@ public class TestUserMain extends UserMain {
 		adminSession = sessionManager.generateSession(TestUserDAO.ADMIN_NAME);
 		final User user = new User(oldUserInfo.userId, oldUserInfo.password, oldUserLevel);
 		userDAO.storeUser(user);
-	}
-	
-	@After
-	public void tearDown(){
-		sessionManager.closeSession(adminSession);
 	}
 	
 	@Test
