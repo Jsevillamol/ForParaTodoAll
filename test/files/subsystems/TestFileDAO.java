@@ -1,5 +1,7 @@
 package files.subsystems;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -130,5 +132,10 @@ public class TestFileDAO extends FileDAO {
 	@Test(expected = InexistentProject.class)
 	public void testAddingAVersionOfAnInexistentProject() throws VersionAlreadyExists, InexistentProject{
 		storeFile(FILE, VERSION, FILEPATH2);
+	}
+	
+	@Test
+	public void testFindProjects(){
+		assertTrue(this.findProjects(REGEX).contains(PROJECT));
 	}
 }
